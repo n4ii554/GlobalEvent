@@ -1,0 +1,8 @@
+<form (submit)="register($event)">
+    <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="nombre_usuario" required />
+    <input type="email" [(ngModel)]="correo_electronico" name="correo_electronico" placeholder="correo_electronico" required />
+    <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="contrasena" required />
+    <button type="submit">Registrarse</button>
+
+    <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+</form>

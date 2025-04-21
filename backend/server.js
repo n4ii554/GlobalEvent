@@ -1,0 +1,121 @@
+const express = require('express');
+const mysql = require('mysql2');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const app = express();
+const port = 3000;
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+
+// Configuración de la base de datos
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',   // Cambia esto si usas un usuario diferente
+    password: '',   // Cambia esto si tienes contraseña
+    database: 'tfg',
+});
+
+db.connect(err => {
+    if (err) {
+        console.error('Error al conectar a la base de datos: ', err);
+        return;
+    }
+    console.log('Conectado a la base de datos MySQL.');
+});
+
+// Ruta para el login
+app.post('/login', (req, res) => {
+    console.log('BODY:', req.body);
+    const { nombre_usuario, contrasena } = req.body;
+
+    // Verificamos que se haya enviado el nombre de usuario y la contraseña
+    if (!nombre_usuario || !contrasena) {
+        return res.status(400).json({ error: 'Nombre de usuario y contraseña son requeridos.' });
+    }
+
+    // Buscar el usuario en la base de datos
+    db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error al consultar la base de datos.' });
+        }
+
+        if (results.length === 0) {
+            return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
+        }
+
+        const usuario = results[0];
+
+        // Verificar si la contraseña coincide
+        bcrypt.compare(contrasena, usuario.contrasena, (err, isMatch) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error al comparar las contraseñas.' });
+            }
+
+            if (!isMatch) {
+                return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
+            }
+
+            // Generar token de autenticación
+            const token = jwt.sign({ id: usuario.id, nombre_usuario: usuario.nombre_usuario }, 'tu_clave_secreta', {
+                expiresIn: '1h',
+            });
+
+            return res.json({ message: 'Login exitoso', token });
+        });
+    });
+});
+
+// Ruta para el registro
+app.post('/register', (req, res) => {
+    const { nombre_usuario, correo_electronico, contrasena } = req.body;
+
+    if (!nombre_usuario || !correo_electronico || !contrasena) {
+        return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+    }
+
+    // Verificar si el nombre de usuario ya existe
+    db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario], (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error al verificar el usuario.' });
+        }
+
+        if (results.length > 0) {
+            return res.status(400).json({ message: 'El nombre de usuario ya está en uso.' });
+        }
+
+        // Encriptar la contraseña antes de guardarla
+        bcrypt.hash(contrasena, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).json({ message: 'Error al encriptar la contraseña.' });
+            }
+
+            const fecha_creacion = new Date(); // Fecha actual
+
+            // Insertar el nuevo usuario en la base de datos
+            db.query(
+                'INSERT INTO usuarios (nombre_usuario, correo_electronico, contrasena, fecha_creacion) VALUES (?, ?, ?, ?)',
+                [nombre_usuario, correo_electronico, hash, fecha_creacion],
+                (err, result) => {
+                    if (err) {
+                        return res.status(500).json({ message: 'Error al registrar el usuario.' });
+                    }
+
+                    return res.status(201).json({ message: 'Usuario registrado exitosamente.' });
+                }
+            );
+        });
+    });
+});
+
+
+
+
+// Iniciar el servidor
+app.listen(port, () => {
+    console.log(`Servidor Express corriendo en el puerto ${port}`);
+});
