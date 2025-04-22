@@ -1,7 +1,14 @@
-<form (submit)="login($event)">
-    <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="nombre_usuario" required />
-    <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="contrasena" required />
-    <button type="submit">Iniciar sesión</button>
+<div class="login-header">
+    <img src="logo.png" alt="GlobalEvent" class="app-logo" />
+  </div>
 
-    <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
-</form>
+<div class="login-container">
+    <h1 class="app-title">Login</h1>
+    <form (submit)="login($event)">
+        <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="nombre_usuario" required />
+        <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="contrasena" required />
+        <button type="submit">Iniciar sesión</button>
+
+        <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+    </form>
+</div>

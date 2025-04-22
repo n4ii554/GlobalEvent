@@ -1,8 +1,38 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f3f0db;
+    flex-direction: column;
+}
+
+.login-header {
+    text-align: center; 
+    margin-bottom: 20px; 
+    padding-bottom: 10px;
+} 
+  
+  .app-logo {
+    width: 50%; 
+    height: auto; 
+    margin-bottom: 10px;
+}
+
+.app-title {
+    font-size: 24px; 
+    font-weight: bold;
+    color: #4CAF50;
+    margin: 0 0 20px 0;  
+    text-align: center; 
+}
+
 .login-container {
     margin: 0 auto;
     max-width: 400px;
     padding: 20px;
     border: 1px solid #ccc;
+    border-radius: 5px;
     background-color: #f9f9f9;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -17,11 +47,12 @@ label {
 }
 
 input {
-    width: 100%;
+    width: 95%;
     padding: 8px;
     margin: 5px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 button {
@@ -31,6 +62,7 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 8px;
 }
 
 button:hover {

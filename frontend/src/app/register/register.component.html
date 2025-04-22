@@ -1,8 +1,23 @@
-<form (submit)="register($event)">
-    <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="nombre_usuario" required />
-    <input type="email" [(ngModel)]="correo_electronico" name="correo_electronico" placeholder="correo_electronico" required />
-    <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="contrasena" required />
-    <button type="submit">Registrarse</button>
 
-    <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
-</form>
+
+    <div class="register-container"> 
+        <h1 class="app-title">Registro</h1>
+        <form (submit)="register($event)">
+            <div class="inputs">
+                <label for="nombre_usuario">Nombre de usuario</label>
+                <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="nombre_usuario" required />
+            </div>
+            <div class="inputs">
+                <label for="correo_electronico">Correo electrónico</label>
+                <input type="email" [(ngModel)]="correo_electronico" name="correo_electronico" placeholder="correo_electronico" required />
+            </div>
+            <div class="inputs">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="contrasena" required />
+            </div>
+
+            <button type="submit">Registrate!</button>
+
+            <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+        </form>
+    </div>
