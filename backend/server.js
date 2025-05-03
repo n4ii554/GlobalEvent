@@ -12,6 +12,10 @@ const port = 3000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 
 // Configuración de la base de datos
 const db = mysql.createConnection({
@@ -30,6 +34,8 @@ db.connect(err => {
 });
 
 // Ruta para el login
+
+
 app.post('/login', (req, res) => {
     console.log('BODY:', req.body);
     const { nombre_usuario, contrasena } = req.body;
@@ -52,6 +58,11 @@ app.post('/login', (req, res) => {
         const usuario = results[0];
 
         // Verificar si la contraseña coincide
+
+        console.log('Contraseña en DB:', usuario.contrasena);
+        console.log('Contraseña ingresada:', contrasena);
+        
+
         bcrypt.compare(contrasena, usuario.contrasena, (err, isMatch) => {
             if (err) {
                 return res.status(500).json({ error: 'Error al comparar las contraseñas.' });
