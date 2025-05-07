@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
   nombre_usuario: string = '';
-  correo_electronico: string = '';
+  email: string = '';
   contrasena: string = '';
   errorMessage: string = '';
 
@@ -21,7 +21,7 @@ export class RegisterComponent {
     try {
       const response = await axios.post('http://localhost:3000/register', {
         nombre_usuario: this.nombre_usuario,
-        correo_electronico: this.correo_electronico,
+        email: this.email,
         contrasena: this.contrasena
       });
   

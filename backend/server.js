@@ -15,8 +15,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
 // Configuración de la base de datos
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -34,22 +32,16 @@ db.connect(err => {
 });
 
 // Ruta para el login
-
-
 app.post('/login', (req, res) => {
-    console.log('BODY:', req.body);
+    
     const { nombre_usuario, contrasena } = req.body;
 
-    // Verificamos que se haya enviado el nombre de usuario y la contraseña
     if (!nombre_usuario || !contrasena) {
         return res.status(400).json({ error: 'Nombre de usuario y contraseña son requeridos.' });
     }
 
-    // Buscar el usuario en la base de datos
     db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario], (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Error al consultar la base de datos.' });
-        }
+        if (err) return res.status(500).json({ error: 'Error al consultar la base de datos.' });
 
         if (results.length === 0) {
             return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
@@ -57,25 +49,18 @@ app.post('/login', (req, res) => {
 
         const usuario = results[0];
 
-        // Verificar si la contraseña coincide
-
-        console.log('Contraseña en DB:', usuario.contrasena);
-        console.log('Contraseña ingresada:', contrasena);
-        
-
         bcrypt.compare(contrasena, usuario.contrasena, (err, isMatch) => {
-            if (err) {
-                return res.status(500).json({ error: 'Error al comparar las contraseñas.' });
-            }
+            if (err) return res.status(500).json({ error: 'Error al comparar las contraseñas.' });
 
             if (!isMatch) {
                 return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
             }
 
-            // Generar token de autenticación
-            const token = jwt.sign({ id: usuario.id, nombre_usuario: usuario.nombre_usuario }, 'tu_clave_secreta', {
-                expiresIn: '1h',
-            });
+            const token = jwt.sign(
+                { id: usuario.id, nombre_usuario: usuario.nombre_usuario },
+                'tu_clave_secreta',
+                { expiresIn: '1h' }
+            );
 
             return res.json({ message: 'Login exitoso', token });
         });
@@ -84,9 +69,11 @@ app.post('/login', (req, res) => {
 
 // Ruta para el registro
 app.post('/register', (req, res) => {
-    const { nombre_usuario, correo_electronico, contrasena } = req.body;
+    console.log('Cuerpo de la solicitud:', req.body);
+    const { nombre_usuario, email, contrasena } = req.body;
 
-    if (!nombre_usuario || !correo_electronico || !contrasena) {
+    // Validación básica
+    if (!nombre_usuario || !email || !contrasena) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
@@ -100,18 +87,16 @@ app.post('/register', (req, res) => {
             return res.status(400).json({ message: 'El nombre de usuario ya está en uso.' });
         }
 
-        // Encriptar la contraseña antes de guardarla
+        // Encriptar contraseña
         bcrypt.hash(contrasena, 10, (err, hash) => {
             if (err) {
                 return res.status(500).json({ message: 'Error al encriptar la contraseña.' });
             }
 
-            const fecha_creacion = new Date(); // Fecha actual
-
-            // Insertar el nuevo usuario en la base de datos
+            // Insertar usuario
             db.query(
-                'INSERT INTO usuarios (nombre_usuario, correo_electronico, contrasena, fecha_creacion) VALUES (?, ?, ?, ?)',
-                [nombre_usuario, correo_electronico, hash, fecha_creacion],
+                'INSERT INTO usuarios (nombre_usuario, email, contrasena) VALUES (?, ?, ?)',
+                [nombre_usuario, email, hash],
                 (err, result) => {
                     if (err) {
                         return res.status(500).json({ message: 'Error al registrar el usuario.' });
@@ -123,8 +108,6 @@ app.post('/register', (req, res) => {
         });
     });
 });
-
-
 
 
 // Iniciar el servidor
