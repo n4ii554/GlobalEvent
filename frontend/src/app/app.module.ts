@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { HttpClientModule } from '@angular/common/http'; 
-
+import { EventosService } from './eventos.service';
 
 @NgModule({
     declarations: [
@@ -23,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
         HttpClientModule, 
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [],
+    providers: [EventosService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

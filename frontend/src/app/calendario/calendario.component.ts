@@ -2,8 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';  
 import interactionPlugin from '@fullcalendar/interaction'; 
-import { HttpClient } from '@angular/common/http';
-
+import { EventosService } from '../eventos.service';  // Importa tu servicio
 
 @Component({
   selector: 'app-calendario',
@@ -14,21 +13,29 @@ import { HttpClient } from '@angular/common/http';
 export class CalendarioComponent implements OnInit, AfterViewInit {
 
   calendar: Calendar | undefined;
-
-  constructor(private http: HttpClient) {}
+  
+  
+  constructor(private eventosService: EventosService) { }  
 
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    this.http.get<any[]>('http://localhost:3000/api/eventos')  
-    .subscribe(
-      (data) => {
-        console.log('Eventos recibidos:', data); 
+    fetch('http://localhost:3000/api/eventos')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error en la respuesta del servidor');
+      }
+      return response.json();
+    })
+
+    .then((data: any[]) => {
+      console.log('Eventos recibidos:', data);
+
         this.calendar = new Calendar(document.getElementById('calendar')!, {
           initialView: 'dayGridMonth',
           plugins: [dayGridPlugin, interactionPlugin],
-          events: data.map(evento => ({
-            title: evento.nombreEvento,
+          events: data.map((evento: any) => ({
+            title: evento.nombreEvento.replace(/^\d+\s*/, ''), 
             date: evento.fechaEvento
           }))
         });
