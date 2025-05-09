@@ -109,6 +109,21 @@ app.post('/register', (req, res) => {
     });
 });
 
+// Ruta para obtener eventos
+app.get('/api/eventos', (req, res) => {
+    const query = 'SELECT id, nombreEvento, fechaEvento, tipoEvento FROM eventos';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener eventos:', err);
+            return res.status(500).json({ error: 'Error al obtener los eventos.' });
+        }
+
+        res.json(results);
+    });
+});
+
+
 
 // Iniciar el servidor
 app.listen(port, () => {
