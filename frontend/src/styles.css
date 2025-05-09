@@ -1,1 +1,96 @@
-/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Knewave&family=Yusei+Magic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap');
+
+
+body{
+    background-color: #f3f0db
+}
+
+#calendar {
+    background-color: #f3f0db !important;
+    padding: 10px; /* Espaciado interno */
+  }
+
+.fc-toolbar-title {
+    font-family: "Yusei Magic", system-ui; 
+    text-transform: uppercase;
+    font-size: xx-large;
+    color: #bbff73;
+    text-shadow:
+    1px 1px 0px black, 
+    -1px -1px 0px black, 
+    1px -1px 0px black, 
+    -1px 1px 0px black; 
+}
+
+.fc-col-header-cell {
+    font-family: "Yusei Magic", system-ui; 
+    text-transform: uppercase;
+    text-align: center;  /* Alineación centrada */
+    color: #faf79b;
+    font-size: 22px;
+    text-shadow:
+    1px 1px 0px black, 
+    -1px -1px 0px black, 
+    1px -1px 0px black, 
+    -1px 1px 0px black; 
+    
+  }
+
+#calendar .fc-day.fc-day-today {
+    background-color: #faf79b ;
+}
+
+#calendar .fc-daygrid-day-number {
+    color: #bbff73;
+    font-family: "Yusei Magic", system-ui; 
+    font-size: 22px;
+    padding-right: 10px;
+    text-shadow:
+    1px 1px 0px black, 
+    -1px -1px 0px black, 
+    1px -1px 0px black, 
+    -1px 1px 0px black; 
+} 
+
+.fc-event {
+    background-color: #90ec62;  /* Color de fondo */
+    color: white;  /* Color del texto */
+    font-family: "Yusei Magic", system-ui; 
+    font-size: 12px;  /* Tamaño de fuente */
+    padding: 5px 10px;  /* Espaciado interno */
+    border-radius: 5px;  /* Bordes redondeados */
+  }
+
+  
+  .fc-daygrid-event {
+    min-height: 30px;  
+  }
+
+  .fc-event:hover {
+    background-color: #67cfe9;  /* Color de fondo al pasar el cursor */
+    cursor: pointer;  /* Cambiar el cursor */
+    opacity: 0.8;  /* Efecto de opacidad al pasar el cursor */
+  }
+ #calendar .fc-today-button {
+    background-color: #90ec62;  /* Fondo azul */
+    color: white;  /* Color del texto */
+    font-family: "Yusei Magic", system-ui; 
+    text-transform: uppercase;
+    font-size: 18px;  /* Tamaño de la fuente */
+    padding: 8px 16px;  /* Espaciado interno */
+    border-radius: 5px;  /* Bordes redondeados */
+    font-weight: bold;  /* Negrita */
+    cursor: pointer;  /* Cambiar cursor al pasar sobre el botón */
+    transition: background-color 0.3s;  /* Transición suave */
+  }
+
+  #calendar .fc-prev-button, #calendar .fc-next-button {
+    background-color: transparent;  /* Fondo transparente */
+    border: none;  /* Sin borde */
+    font-size: 26px;  /* Tamaño de la fuente */
+    color: #bbff73;  /* Color azul */
+    cursor: pointer;  /* Cambiar el cursor */
+    transition: color 0.3s;  /* Transición suave */
+  }

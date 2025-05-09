@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';  
+import dayGridPlugin from '@fullcalendar/daygrid'; 
+import esLocale from '@fullcalendar/core/locales/es'; 
 import interactionPlugin from '@fullcalendar/interaction'; 
 import { EventosService } from '../eventos.service';  // Importa tu servicio
 
@@ -33,6 +34,8 @@ export class CalendarioComponent implements OnInit, AfterViewInit {
 
         this.calendar = new Calendar(document.getElementById('calendar')!, {
           initialView: 'dayGridMonth',
+          locale: 'es',
+          firstDay: 1,
           plugins: [dayGridPlugin, interactionPlugin],
           events: data.map((evento: any) => ({
             title: evento.nombreEvento.replace(/^\d+\s*/, ''), 

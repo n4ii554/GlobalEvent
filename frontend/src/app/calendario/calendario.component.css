@@ -1,8 +1,14 @@
 
 #calendar {
-    
+   
 }
 
-:root {
-    --fc-event-bg-color: yellow;
+#fc-event {
+    background-color: #3498db;
+    border: none;
+    color: white;
+  }
+
+.fc-daygrid-day-number {
+    color: green;
 }
