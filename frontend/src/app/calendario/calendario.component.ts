@@ -2,6 +2,8 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';  
 import interactionPlugin from '@fullcalendar/interaction'; 
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-calendario',
@@ -13,22 +15,30 @@ export class CalendarioComponent implements OnInit, AfterViewInit {
 
   calendar: Calendar | undefined;
 
+  constructor(private http: HttpClient) {}
+
   ngOnInit(): void {}
 
-  // Aquí es donde se inicializa FullCalendar
   ngAfterViewInit() {
-    // Inicializa el calendario después de que la vista esté completamente cargada
-    this.calendar = new Calendar(document.getElementById('calendar')!, {
-      initialView: 'dayGridMonth',  // Puedes cambiar la vista (dayGridMonth, listWeek, etc.)
-      plugins: [dayGridPlugin, interactionPlugin],
-      events: [
-        { title: 'Evento 1', date: '2025-05-10' },
-        { title: 'Evento 2', date: '2025-05-15' },
-      ],
-     
-    });
+    this.http.get<any[]>('http://localhost:3000/api/eventos')  
+    .subscribe(
+      (data) => {
+        console.log('Eventos recibidos:', data); 
+        this.calendar = new Calendar(document.getElementById('calendar')!, {
+          initialView: 'dayGridMonth',
+          plugins: [dayGridPlugin, interactionPlugin],
+          events: data.map(evento => ({
+            title: evento.nombreEvento,
+            date: evento.fechaEvento
+          }))
+        });
 
-    this.calendar.render();  // Renderiza el calendario en el div
+        this.calendar.render();  // Renderiza el calendario con los eventos obtenidos
+      },
+      (error) => {
+        console.error('Error al obtener eventos:', error);
+      }
+    );
   }
 
 }

@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app.routes';  // Importa las rutas
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { HttpClientModule } from '@angular/common/http'; 
+
 
 @NgModule({
     declarations: [
@@ -17,7 +19,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
         BrowserModule,
         AppRoutingModule,
         FormsModule,
-        FullCalendarModule
+        FullCalendarModule,
+        HttpClientModule, 
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [],
