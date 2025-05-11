@@ -8,12 +8,18 @@ import { RegisterComponent } from './register/register.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { HttpClientModule } from '@angular/common/http'; 
 import { EventosService } from './eventos.service';
+import { LandingComponent } from './landing/landing.component';
+import { FooterComponent } from './footer/footer.component';
+import { BarraNavegacionComponent } from './barra-navegacion/barra-navegacion.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        LandingComponent,
+        FooterComponent,
+        BarraNavegacionComponent
     ],
     imports: [
         BrowserModule,
