@@ -11,6 +11,8 @@ import { EventosService } from './eventos.service';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
 import { BarraNavegacionComponent } from './barra-navegacion/barra-navegacion.component';
+import { AdminComponent } from './admin/admin.component'; 
+
 
 @NgModule({
     declarations: [
@@ -19,7 +21,8 @@ import { BarraNavegacionComponent } from './barra-navegacion/barra-navegacion.co
         RegisterComponent,
         LandingComponent,
         FooterComponent,
-        BarraNavegacionComponent
+        BarraNavegacionComponent,
+        AdminComponent, 
     ],
     imports: [
         BrowserModule,

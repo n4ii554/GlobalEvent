@@ -1,0 +1,16 @@
+<h2>Gestión de Eventos</h2>
+
+<form (ngSubmit)="guardarEvento()">
+  <input [(ngModel)]="nuevoEvento.nombreEvento" name="nombreEvento" placeholder="nombreEvento" required />
+  <input [(ngModel)]="nuevoEvento.fechaEvento" name="fechaEvento" type="date" required />
+  <input [(ngModel)]="nuevoEvento.tipoEvento" name="tipoEvento" placeholder="tipoEvento" />
+  <button type="submit">Guardar</button>
+</form>
+
+<ul>
+  <li *ngFor="let evento of eventos">
+    {{ evento.titulo }} - {{ evento.fechaEvento | date: 'yyyy-MM-dd' }}
+    <button (click)="editarEvento(evento)">Editar</button>
+    <button (click)="eliminarEvento(evento.id)">Eliminar</button>
+  </li>
+</ul>
