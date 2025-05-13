@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Serif+Display:ital@0;1&family=Teko:wght@300&display=swap');
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    background-color: #ffffff;
+}
+
+/* Logo */
+.logo {
+    height: 80px;
+    width: auto;
+    margin-right: 20px;
+}
+
+/* Estilo para el menú de navegación */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Enlaces */
+.navbar-nav li {
+    list-style: none;
+}
+
+.custom-navlink {
+    font-family: "DM Serif Display", serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 18px;
+    color: #000;
+    text-decoration: none;
+}
+
+.custom-navlink:hover,
+.custom-navlink.router-link-active {
+    text-decoration: underline;
+}
+
+/* Dropdown */
+.custom-dropdown {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.dropdown .btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: black;
+}
+
+.dropdown-menu {
+    font-family: "DM Serif Display", serif;
+    font-size: 16px;
+}
+
+/* Items dentro del dropdown */
+.custom-item {
+    padding: 10px 20px;
+}
+
+.custom-item i {
+    margin-right: 10px;
+}
