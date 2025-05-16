@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid'; 
-import esLocale from '@fullcalendar/core/locales/es'; 
+import { FormsModule } from '@angular/forms';
 import interactionPlugin from '@fullcalendar/interaction'; 
 import { EventosService } from '../eventos.service';  // Importa tu servicio
 
 @Component({
   selector: 'app-calendario',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.css'
 })

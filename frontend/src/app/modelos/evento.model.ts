@@ -1,6 +1,6 @@
 export interface Evento {
-    id: number;
+    id?: number;
     nombreEvento: string;
-    fechaEvento: Date;
+    fechaEvento: string;
     tipoEvento: string;
 }

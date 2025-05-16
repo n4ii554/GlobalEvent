@@ -5,7 +5,7 @@ import { Evento } from '../modelos/evento.model';
   providedIn: 'root',
 })
 export class EventoService {
-  private apiUrl = 'http://localhost:3000/eventos';
+  private apiUrl = 'http://localhost:3000/api/eventos';
 
   async obtenerEventos(): Promise<Evento[]> {
     const respuesta = await fetch(this.apiUrl);
@@ -20,18 +20,49 @@ export class EventoService {
   }
 
   async añadirEvento(evento: Evento): Promise<Evento> {
-    const cuerpo = { ...evento, fechaEvento: evento.fechaEvento.toISOString() };
+    if (!evento.fechaEvento || evento.fechaEvento.trim() === '') {
+    throw new Error('FechaEvento está vacía o no es válida');
+  }
+
+  const fechaDate = new Date(evento.fechaEvento);
+  if (isNaN(fechaDate.getTime())) {
+    throw new Error('FechaEvento no es una fecha válida');
+  }
+
+  const cuerpo = {
+    ...evento,
+    fechaEvento: fechaDate.toISOString(),
+ 
+  };
+
     const respuesta = await fetch(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(cuerpo),
     });
-    const dato = await respuesta.json();
-    return { ...dato, fechaEvento: new Date(dato.fechaEvento) };
+
+    if (!respuesta.ok) {
+  const errorTexto = await respuesta.text();
+  throw new Error('Error en el servidor: ' + errorTexto);
+}
+
+const eventoCreado = await respuesta.json();
+return eventoCreado;
+    //const dato = await respuesta.json();
+    //return { ...dato, fechaEvento: new Date(dato.fechaEvento) };
   }
 
   async actualizarEvento(evento: Evento): Promise<Evento> {
-    const cuerpo = { ...evento, fechaEvento: evento.fechaEvento.toISOString() };
+    const fechaDate = new Date(evento.fechaEvento);
+    if (isNaN(fechaDate.getTime())) {
+      throw new Error('FechaEvento no es una fecha válida');
+    }
+
+    const cuerpo = {
+      ...evento,
+     fechaEvento: fechaDate.toISOString(),
+    };
+
     const respuesta = await fetch(`${this.apiUrl}/${evento.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -42,6 +73,12 @@ export class EventoService {
   }
 
   async eliminarEvento(id: number): Promise<void> {
-    await fetch(`${this.apiUrl}/${id}`, { method: 'DELETE' });
+    const respuesta = await fetch(`${this.apiUrl}/${id}`, { method: 'DELETE' });
+ 
+     if (!respuesta.ok) {
+    const errorTexto = await respuesta.text();
+    throw new Error('Error eliminando evento: ' + errorTexto);
+  }
+
   }
 }

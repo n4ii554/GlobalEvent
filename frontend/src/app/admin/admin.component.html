@@ -1,16 +1,54 @@
-<h2>Gestión de Eventos</h2>
+<form (ngSubmit)="guardarEvento()" #form="ngForm">
+  <h3>{{ eventoSeleccionado ? 'Editar Evento' : 'Crear Evento' }}</h3>
 
-<form (ngSubmit)="guardarEvento()">
-  <input [(ngModel)]="nuevoEvento.nombreEvento" name="nombreEvento" placeholder="nombreEvento" required />
-  <input [(ngModel)]="nuevoEvento.fechaEvento" name="fechaEvento" type="date" required />
-  <input [(ngModel)]="nuevoEvento.tipoEvento" name="tipoEvento" placeholder="tipoEvento" />
-  <button type="submit">Guardar</button>
+  <div>
+    <label for="nombreEvento">Nombre del Evento:</label>
+    <input
+      type="text"
+      id="nombreEvento"
+      name="nombreEvento"
+      [(ngModel)]="nuevoEvento.nombreEvento"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="fechaEvento">Fecha del Evento:</label>
+    <input
+      type="text"
+      id="fechaEvento"
+      name="fechaEvento"
+      [(ngModel)]="nuevoEvento.fechaEvento"
+      required
+      placeholder="AAAA/MM/DD"
+    />
+  </div>
+
+  <div>
+    <label for="tipoEvento">Tipo de Evento:</label>
+    <input
+      type="text"
+      id="tipoEvento"
+      name="tipoEvento"
+      [(ngModel)]="nuevoEvento.tipoEvento"
+      required
+    />
+  </div>
+
+  <button type="submit">
+    {{ eventoSeleccionado ? 'Actualizar' : 'Crear' }}
+  </button>
+
+  <button type="button" *ngIf="eventoSeleccionado" (click)="eventoSeleccionado = null">
+    Cancelar
+  </button>
 </form>
 
+<h3>Lista de Eventos</h3>
 <ul>
   <li *ngFor="let evento of eventos">
-    {{ evento.titulo }} - {{ evento.fechaEvento | date: 'yyyy-MM-dd' }}
+    <strong>{{ evento.nombreEvento }}</strong> — {{ evento.fechaEvento | date:'yyyy/MM/dd' }} — {{ evento.tipoEvento }}
     <button (click)="editarEvento(evento)">Editar</button>
-    <button (click)="eliminarEvento(evento.id)">Eliminar</button>
+    <button *ngIf="evento.id !== undefined" (click)="eliminarEvento(evento.id)">Eliminar</button>
   </li>
 </ul>
