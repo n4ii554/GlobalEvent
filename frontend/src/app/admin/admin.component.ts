@@ -9,6 +9,7 @@ import { Evento } from '../modelos/evento.model';
   imports: [CommonModule, FormsModule],
   selector: 'app-admin',
   templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.css'],
   
 })
 

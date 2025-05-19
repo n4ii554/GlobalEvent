@@ -3,94 +3,99 @@
 @import url('https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap');
 
 
-body{
-    background-color: #ffffff
+body {
+  background-color: #f3f0db; /* igual que fondo admin */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #calendar {
-    background-color: #f3f0db !important;
-    padding: 10px; /* Espaciado interno */
-  }
+  background-color: #ffffff; /* fondo blanco limpio */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 900px;
+  margin: 20px auto;
+}
 
 .fc-toolbar-title {
-    font-family: "Yusei Magic", system-ui; 
-    text-transform: uppercase;
-    font-size: xx-large;
-    color: #bbff73;
-    text-shadow:
-    1px 1px 0px black, 
-    -1px -1px 0px black, 
-    1px -1px 0px black, 
-    -1px 1px 0px black; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #4caf50;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .fc-col-header-cell {
-    font-family: "Yusei Magic", system-ui; 
-    text-transform: uppercase;
-    text-align: center;  /* Alineación centrada */
-    color: #faf79b;
-    font-size: 22px;
-    text-shadow:
-    1px 1px 0px black, 
-    -1px -1px 0px black, 
-    1px -1px 0px black, 
-    -1px 1px 0px black; 
-    
-  }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #388e3c;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 6px 0;
+  border-bottom: 2px solid #c8e6c9;
+}
 
 #calendar .fc-day.fc-day-today {
-    background-color: #faf79b ;
+  background-color: #dcedc8; /* verde suave para hoy */
+  border-radius: 4px;
 }
 
 #calendar .fc-daygrid-day-number {
-    color: #bbff73;
-    font-family: "Yusei Magic", system-ui; 
-    font-size: 22px;
-    padding-right: 10px;
-    text-shadow:
-    1px 1px 0px black, 
-    -1px -1px 0px black, 
-    1px -1px 0px black, 
-    -1px 1px 0px black; 
-} 
+  color: #388e3c;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0 8px;
+}
 
 .fc-event {
-    background-color: #90ec62;  /* Color de fondo */
-    color: white;  /* Color del texto */
-    font-family: "Yusei Magic", system-ui; 
-    font-size: 12px;  /* Tamaño de fuente */
-    padding: 5px 10px;  /* Espaciado interno */
-    border-radius: 5px;  /* Bordes redondeados */
-  }
+  background-color: #4caf50; /* verde principal */
+  color: white;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  
-  .fc-daygrid-event {
-    min-height: 30px;  
-  }
+.fc-event:hover {
+  background-color: #388e3c;
+  opacity: 0.9;
+}
 
-  .fc-event:hover {
-    background-color: #67cfe9;  /* Color de fondo al pasar el cursor */
-    cursor: pointer;  /* Cambiar el cursor */
-    opacity: 0.8;  /* Efecto de opacidad al pasar el cursor */
-  }
- #calendar .fc-today-button {
-    background-color: #90ec62;  /* Fondo azul */
-    color: white;  /* Color del texto */
-    font-family: "Yusei Magic", system-ui; 
-    text-transform: uppercase;
-    font-size: 18px;  /* Tamaño de la fuente */
-    padding: 8px 16px;  /* Espaciado interno */
-    border-radius: 5px;  /* Bordes redondeados */
-    font-weight: bold;  /* Negrita */
-    cursor: pointer;  /* Cambiar cursor al pasar sobre el botón */
-    transition: background-color 0.3s;  /* Transición suave */
-  }
+.fc-daygrid-event {
+  min-height: 32px;
+}
 
-  #calendar .fc-prev-button, #calendar .fc-next-button {
-    background-color: transparent;  /* Fondo transparente */
-    border: none;  /* Sin borde */
-    font-size: 26px;  /* Tamaño de la fuente */
-    color: #bbff73;  /* Color azul */
-    cursor: pointer;  /* Cambiar el cursor */
-    transition: color 0.3s;  /* Transición suave */
-  }
+#calendar .fc-today-button {
+  background-color: #4caf50;
+  color: white;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#calendar .fc-today-button:hover {
+  background-color: #388e3c;
+}
+
+#calendar .fc-prev-button,
+#calendar .fc-next-button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #4caf50;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#calendar .fc-prev-button:hover,
+#calendar .fc-next-button:hover {
+  color: #388e3c;
+}

@@ -24,6 +24,13 @@ export class EventoService {
     throw new Error('FechaEvento está vacía o no es válida');
   }
 
+  const formatearFecha = (fecha: Date): string => {
+    const yyyy = fecha.getFullYear();
+    const mm = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const dd = fecha.getDate().toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
   const fechaDate = new Date(evento.fechaEvento);
   if (isNaN(fechaDate.getTime())) {
     throw new Error('FechaEvento no es una fecha válida');
@@ -31,7 +38,7 @@ export class EventoService {
 
   const cuerpo = {
     ...evento,
-    fechaEvento: fechaDate.toISOString(),
+    fechaEvento: formatearFecha(fechaDate),
  
   };
 
@@ -58,9 +65,16 @@ return eventoCreado;
       throw new Error('FechaEvento no es una fecha válida');
     }
 
+    const formatearFecha = (fecha: Date): string => {
+    const yyyy = fecha.getFullYear();
+    const mm = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const dd = fecha.getDate().toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
     const cuerpo = {
       ...evento,
-     fechaEvento: fechaDate.toISOString(),
+     fechaEvento: formatearFecha(fechaDate),
     };
 
     const respuesta = await fetch(`${this.apiUrl}/${evento.id}`, {

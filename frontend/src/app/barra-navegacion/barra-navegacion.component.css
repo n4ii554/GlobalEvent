@@ -4,41 +4,55 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 30px;
-    background-color: #ffffff;
+    padding: 15px 40px;
+    background-color: #f9f9f9; /* Color suave, similar a login */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra ligera */
+    font-family: 'DM Serif Display', serif;
+    border-bottom: 2px solid #4CAF50; /* verde acorde con login */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 /* Logo */
 .logo {
-    height: 80px;
+    height: 70px;
     width: auto;
-    margin-right: 20px;
+    margin-right: 25px;
+    cursor: pointer;
 }
 
-/* Estilo para el menú de navegación */
+/* Menú de navegación */
 .navbar-nav {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 35px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-/* Enlaces */
+/* Elementos li */
 .navbar-nav li {
     list-style: none;
 }
 
+/* Links */
 .custom-navlink {
-    font-family: "DM Serif Display", serif;
-    font-weight: 200;
-    font-style: normal;
+    font-weight: 400;
     font-size: 18px;
-    color: #000;
+    color: #333; /* gris oscuro para mejor legibilidad */
     text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .custom-navlink:hover,
 .custom-navlink.router-link-active {
-    text-decoration: underline;
+    color: white;
+    background-color: #4CAF50; /* verde vivo */
+    text-decoration: none;
 }
 
 /* Dropdown */
@@ -46,25 +60,76 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+    position: relative;
 }
 
+/* Botón dropdown */
 .dropdown .btn {
     background: none;
     border: none;
     font-size: 24px;
-    color: black;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
+.dropdown .btn:hover {
+    color: #4CAF50;
+}
+
+/* Dropdown menu */
 .dropdown-menu {
-    font-family: "DM Serif Display", serif;
+    font-family: 'DM Serif Display', serif;
     font-size: 16px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    min-width: 180px;
+    z-index: 2000;
+    display: none; /* controla con JS o Angular para mostrar */
 }
 
 /* Items dentro del dropdown */
 .custom-item {
-    padding: 10px 20px;
+    padding: 10px 25px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
 }
 
+.custom-item:hover {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+/* Íconos dentro de dropdown */
 .custom-item i {
     margin-right: 10px;
+}
+
+/* Responsive: Opcional, para pantallas pequeñas */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 10px 20px;
+    }
+    .navbar-nav {
+        gap: 20px;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .custom-dropdown {
+        margin-left: 0;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+    }
 }

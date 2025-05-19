@@ -197,6 +197,8 @@ app.delete('/api/eventos/:id', (req, res) => {
 });
 
 // Ruta para modificar evento
+
+
 app.put('/api/eventos/:id', (req, res) => {
   const { id } = req.params;
   const { nombreEvento, fechaEvento, tipoEvento } = req.body;
@@ -205,7 +207,7 @@ app.put('/api/eventos/:id', (req, res) => {
     return res.status(400).json({ error: 'Faltan datos obligatorios' });
   }
 
-  console.log('Actualizar evento:', { id, nombreEvento, fechaEvento, tipoEvento });
+console.log('req.body:', req.body);
 
 
   const query = 'UPDATE eventos SET nombreEvento = ?, fechaEvento = ?, tipoEvento = ? WHERE id = ?';
