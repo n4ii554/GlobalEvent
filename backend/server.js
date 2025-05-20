@@ -569,7 +569,65 @@ app.listen(3000, () => console.log('API de encuestas escuchando en puerto 3000')
 /* Administración de las publicaciones BBDD  */
 /*********************************************/
 
+// Ruta para obtener todas las publicaciones
+app.get('/api/publicaciones', (req, res) => {
+  db.query('SELECT * FROM publicaciones', (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
 
+// Ruta para obtener una publicación por id
+app.get('/api/publicaciones/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('SELECT * FROM publicaciones WHERE id = ?', [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'Publicación no encontrada' });
+    res.json(results[0]);
+  });
+});
+
+// Ruta para crear una publicación
+app.post('/api/publicaciones', (req, res) => {
+  console.log('Body recibido:', req.body);
+
+  const { usuario_id, evento_id, titulo, contenido, fecha_publicacion } = req.body;
+  db.query(
+    'INSERT INTO publicaciones (usuario_id, evento_id, titulo, contenido, fecha_publicacion) VALUES (?, ?, ?, ?, ?)',
+    [usuario_id, evento_id, titulo, contenido, fecha_publicacion],
+    (err, result) => {
+      console.error('Error al insertar publicación:', err);
+
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(201).json({ id: result.insertId, usuario_id, evento_id, titulo, contenido, fecha_publicacion });
+    }
+  );
+});
+
+// Ruta para actualizar una publicación
+app.put('/api/publicaciones/:id', (req, res) => {
+  const { id } = req.params;
+  const { usuario_id, evento_id, titulo, contenido, fecha_publicacion } = req.body;
+  db.query(
+    'UPDATE publicaciones SET usuario_id = ?, evento_id = ?, titulo = ?, contenido = ?, fecha_publicacion = ? WHERE id = ?',
+    [usuario_id, evento_id, titulo, contenido, fecha_publicacion, id],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      if (result.affectedRows === 0) return res.status(404).json({ error: 'Publicación no encontrada' });
+      res.json({ id, usuario_id, evento_id, titulo, contenido, fecha_publicacion });
+    }
+  );
+});
+
+// Ruta para eliminar una publicación
+app.delete('/api/publicaciones/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM publicaciones WHERE id = ?', [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.affectedRows === 0) return res.status(404).json({ error: 'Publicación no encontrada' });
+    res.status(204).send();
+  });
+});
 
 
 

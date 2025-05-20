@@ -1,0 +1,146 @@
+<!-- Formulario CREAR -->
+<form *ngIf="!publicacionSeleccionada" (ngSubmit)="guardarPublicacion()" #formCrear="ngForm" class="publicacion-formulario">
+  <h3>Crear Publicación</h3>
+
+  <div>
+    <label for="usuarioCrear">Usuario:</label>
+    <select
+      id="usuarioCrear"
+      name="usuarioCrear"
+      [(ngModel)]="nuevoPublicacion.usuario_id"
+      required
+    >
+      <option [ngValue]="null" disabled selected>Selecciona un usuario</option>
+      <option *ngFor="let u of usuarios" [ngValue]="u.id">{{ u.nombre_usuario }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="eventoCrear">Evento:</label>
+    <select
+      id="eventoCrear"
+      name="eventoCrear"
+      [(ngModel)]="nuevoPublicacion.evento_id"
+      required
+    >
+      <option [ngValue]="null" disabled selected>Selecciona un evento</option>
+      <option *ngFor="let ev of eventos" [ngValue]="ev.id">{{ ev.nombreEvento }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="tituloCrear">Título:</label>
+    <input
+      id="tituloCrear"
+      name="tituloCrear"
+      type="text"
+      [(ngModel)]="nuevoPublicacion.titulo"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="contenidoCrear">Contenido:</label>
+    <textarea
+      id="contenidoCrear"
+      name="contenidoCrear"
+      rows="4"
+      [(ngModel)]="nuevoPublicacion.contenido"
+      required
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="fechaCrear">Fecha de Publicación:</label>
+    <input
+      id="fechaCrear"
+      name="fechaCrear"
+      type="date"
+      [(ngModel)]="nuevoPublicacion.fecha_publicacion"
+      required
+    />
+  </div>
+
+  <button type="submit">Crear</button>
+</form>
+
+<!-- Formulario EDITAR -->
+<form *ngIf="publicacionSeleccionada" (ngSubmit)="guardarPublicacion()" #formEditar="ngForm" class="publicacion-formulario">
+  <h3>Editar Publicación</h3>
+
+  <div>
+    <label for="usuarioEditar">Usuario:</label>
+    <select
+      id="usuarioEditar"
+      name="usuarioEditar"
+      [(ngModel)]="publicacionSeleccionada!.usuario_id"
+      required
+    >
+      <option [ngValue]="null" disabled>Selecciona un usuario</option>
+      <option *ngFor="let u of usuarios" [ngValue]="u.id">{{ u.nombre_usuario }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="eventoEditar">Evento:</label>
+    <select
+      id="eventoEditar"
+      name="eventoEditar"
+      [(ngModel)]="publicacionSeleccionada!.evento_id"
+      required
+    >
+      <option [ngValue]="null" disabled>Selecciona un evento</option>
+      <option *ngFor="let ev of eventos" [ngValue]="ev.id">{{ ev.nombreEvento }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="tituloEditar">Título:</label>
+    <input
+      id="tituloEditar"
+      name="tituloEditar"
+      type="text"
+      [(ngModel)]="publicacionSeleccionada!.titulo"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="contenidoEditar">Contenido:</label>
+    <textarea
+      id="contenidoEditar"
+      name="contenidoEditar"
+      rows="4"
+      [(ngModel)]="publicacionSeleccionada!.contenido"
+      required
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="fechaEditar">Fecha de Publicación:</label>
+    <input
+      id="fechaEditar"
+      name="fechaEditar"
+      type="date"
+      [(ngModel)]="publicacionSeleccionada!.fecha_publicacion"
+      required
+    />
+  </div>
+
+  <button type="submit">Actualizar</button>
+  <button type="button" (click)="cancelarEdicion()">Cancelar</button>
+</form>
+
+<!-- Lista de Publicaciones -->
+<h3>Lista de Publicaciones</h3>
+<ul class="lista-publicaciones">
+  <li *ngFor="let pub of publicaciones">
+    <strong>Usuario ID:</strong> {{ pub.usuario_id }} —
+    <strong>Evento ID:</strong> {{ pub.evento_id }} —
+    <strong>Título:</strong> {{ pub.titulo }} —
+    <strong>Contenido:</strong> {{ pub.contenido }} —
+    <strong>Fecha:</strong> {{ pub.fecha_publicacion }}
+    <button (click)="seleccionarParaEditar(pub)">Editar</button>
+    <button (click)="eliminarPublicacion(pub.id!)">Eliminar</button>
+  </li>
+</ul>
