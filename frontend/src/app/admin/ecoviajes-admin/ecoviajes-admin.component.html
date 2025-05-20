@@ -1,0 +1,156 @@
+<!-- Formulario CREAR -->
+<form *ngIf="!ecoViajeSeleccionado" (ngSubmit)="guardarEcoViaje()" #formCrear="ngForm">
+  <h3>Crear EcoViaje</h3>
+
+  <div>
+    <label for="usuarioCrear">Usuario:</label>
+    <select
+      id="usuarioCrear"
+      name="usuarioCrear"
+      [(ngModel)]="nuevoEcoViaje.usuario_id"
+      required
+    >
+      <option [ngValue]="null" disabled selected>Selecciona un usuario</option>
+      <option *ngFor="let u of usuarios" [ngValue]="u.id">
+        {{ u.nombre_usuario }}
+      </option>
+    </select>
+  </div>
+
+  <div>
+  <label for="eventoCrear">Evento:</label>
+  <select
+    id="eventoCrear"
+    name="eventoCrear"
+    [(ngModel)]="nuevoEcoViaje.evento_id"
+    required
+  >
+    <option [ngValue]="null" disabled selected>Selecciona un evento</option>
+    <option *ngFor="let ev of eventos" [ngValue]="ev.id">
+      {{ ev.nombreEvento }}
+    </option>
+  </select>
+</div>
+
+  <div>
+    <label for="ubicacionCrear">Ubicación Inicial:</label>
+    <input
+      id="ubicacionCrear"
+      name="ubicacionCrear"
+      type="text"
+      [(ngModel)]="nuevoEcoViaje.ubicacionInicial"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="plazasCrear">Plazas Disponibles:</label>
+    <input
+      id="plazasCrear"
+      name="plazasCrear"
+      type="number"
+      [(ngModel)]="nuevoEcoViaje.plazasDisponibles"
+      required
+      min="0"
+    />
+  </div>
+
+  <div>
+    <label for="fechaCrear">Fecha del Viaje:</label>
+    <input
+      id="fechaCrear"
+      name="fechaCrear"
+      type="date"
+      [(ngModel)]="nuevoEcoViaje.fechaViaje"
+      required
+    />
+  </div>
+
+  <button type="submit">Crear</button>
+</form>
+
+<!-- Formulario EDITAR -->
+<form *ngIf="ecoViajeSeleccionado" (ngSubmit)="guardarEcoViaje()" #formEditar="ngForm">
+  <h3>Editar EcoViaje</h3>
+
+  <div>
+    <label for="usuarioEditar">Usuario:</label>
+    <select
+      id="usuarioEditar"
+      name="usuarioEditar"
+      [(ngModel)]="ecoViajeSeleccionado.usuario_id"
+      required
+    >
+      <option [ngValue]="null" disabled>Selecciona un usuario</option>
+      <option *ngFor="let u of usuarios" [ngValue]="u.id">
+        {{ u.nombre_usuario }}
+      </option>
+    </select>
+  </div>
+
+  <div>
+  <label for="eventoEditar">Evento:</label>
+  <select
+    id="eventoEditar"
+    name="eventoEditar"
+    [(ngModel)]="ecoViajeSeleccionado.evento_id"
+    required
+  >
+    <option [ngValue]="null" disabled>Selecciona un evento</option>
+    <option *ngFor="let ev of eventos" [ngValue]="ev.id">
+      {{ ev.nombreEvento }}
+    </option>
+  </select>
+</div>
+
+  <div>
+    <label for="ubicacionEditar">Ubicación Inicial:</label>
+    <input
+      id="ubicacionEditar"
+      name="ubicacionEditar"
+      type="text"
+      [(ngModel)]="ecoViajeSeleccionado.ubicacionInicial"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="plazasEditar">Plazas Disponibles:</label>
+    <input
+      id="plazasEditar"
+      name="plazasEditar"
+      type="number"
+      [(ngModel)]="ecoViajeSeleccionado.plazasDisponibles"
+      required
+      min="0"
+    />
+  </div>
+
+  <div>
+    <label for="fechaEditar">Fecha del Viaje:</label>
+    <input
+      id="fechaEditar"
+      name="fechaEditar"
+      type="date"
+      [(ngModel)]="ecoViajeSeleccionado.fechaViaje"
+      required
+    />
+  </div>
+
+  <button type="submit">Actualizar</button>
+  <button type="button" (click)="ecoViajeSeleccionado = null">Cancelar</button>
+</form>
+
+<!-- Lista de EcoViajes -->
+<h3>Lista de EcoViajes</h3>
+<ul>
+  <li *ngFor="let eco of ecoviajes">
+    <strong>ID Usuario:</strong> {{ eco.usuario_id }} —
+    <strong>ID Evento:</strong> {{ eco.evento_id }} —
+    <strong>Ubicación:</strong> {{ eco.ubicacionInicial }} —
+    <strong>Plazas:</strong> {{ eco.plazasDisponibles }} —
+    <strong>Fecha:</strong> {{ eco.fechaViaje | date:'yyyy/MM/dd' }}
+    <button (click)="editarEcoViaje(eco)">Editar</button>
+    <button *ngIf="eco.id !== undefined" (click)="eliminarEcoViaje(eco.id)">Eliminar</button>
+  </li>
+</ul>

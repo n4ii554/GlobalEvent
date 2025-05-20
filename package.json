@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/n4ii554/GlobalEvent#readme",
   "dependencies": {
+    "@angular/core": "^16.0.0",
+    "@angular/forms": "^16.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "mysql2": "^3.14.1"

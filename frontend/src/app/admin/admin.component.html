@@ -1,9 +1,12 @@
+
+<div class="container">
 <div class="admin-panel">
   <!-- Botones para seleccionar sección -->
   <div class="admin-buttons">
     <button (click)="seleccionarSeccion('usuarios')" [class.active]="seccionActiva === 'usuarios'">Usuarios</button>
     <button (click)="seleccionarSeccion('eventos')" [class.active]="seccionActiva === 'eventos'">Eventos</button>
     <button (click)="seleccionarSeccion('encuestas')" [class.active]="seccionActiva === 'encuestas'">Encuestas</button>
+    <button (click)="seleccionarSeccion('ecoviajes')" [class.active]="seccionActiva === 'ecoviajes'">Ecoviajes</button>
 
   </div>
 
@@ -12,5 +15,7 @@
     <app-usuarios-admin *ngIf="seccionActiva === 'usuarios'"></app-usuarios-admin>
     <app-eventos-admin *ngIf="seccionActiva === 'eventos'"></app-eventos-admin>
     <app-encuestas-admin *ngIf="seccionActiva === 'encuestas'"></app-encuestas-admin>
+    <app-ecoviajes-admin *ngIf="seccionActiva === 'ecoviajes'"></app-ecoviajes-admin>
   </div>
+</div>
 </div>

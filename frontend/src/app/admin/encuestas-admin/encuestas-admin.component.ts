@@ -8,6 +8,7 @@ import { Pregunta } from '../../modelos/pregunta.model';
 import { Opcion } from '../../modelos/opcion.model';
 
 @Component({
+  standalone: true,
   selector: 'app-encuestas-admin',
   imports: [CommonModule, FormsModule],
   templateUrl: './encuestas-admin.component.html',

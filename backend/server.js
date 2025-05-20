@@ -577,9 +577,89 @@ app.listen(3000, () => console.log('API de encuestas escuchando en puerto 3000')
 /*   Administración de los ecoviajes BBDD    */
 /*********************************************/
 
+//Ruta para obtener los ecoviajes
+app.get('/api/ecoviajes', (req, res) => {
+  db.query('SELECT * FROM ecoviajes', (err, results) => {
+    if (err) {
+      console.error('Error al obtener ecoviajes:', err);
+      return res.status(500).json({ error: 'Error en el servidor' });
+    }
+    res.json(results);
+  });
+});
+
+//Ruta para crear un nuevo ecoviaje
+app.post('/api/ecoviajes', (req, res) => {
+  const nuevoEcoviaje = req.body;
+
+  const sql = `INSERT INTO ecoviajes (usuario_id, evento_id, fechaViaje, plazasDisponibles, ubicacionInicial) VALUES (?, ?, ?, ?, ?)`;
+  const values = [
+    nuevoEcoviaje.usuario_id,
+    nuevoEcoviaje.evento_id,
+    nuevoEcoviaje.fechaViaje,
+    nuevoEcoviaje.plazasDisponibles,
+    nuevoEcoviaje.ubicacionInicial
+  ];
+
+  db.query(sql, values, (err, resultado) => {
+    if (err) {
+      console.error('Error al crear ecoviaje:', err);
+      return res.status(500).json({ error: 'Error en el servidor' });
+    }
+    res.status(201).json({ id: resultado.insertId, ...nuevoEcoviaje });
+  });
+});
 
 
 
+//Ruta para actualizar un ecoviaje
+app.put('/api/ecoviajes/:id', (req, res) => {
+  const id = req.params.id;
+  const { usuario_id, evento_id, fechaViaje, plazasDisponibles, ubicacionInicial } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: 'ID es requerido' });
+  }
+
+  const sql = `
+    UPDATE ecoviajes
+    SET usuario_id = ?, evento_id = ?, fechaViaje = ?, plazasDisponibles = ?, ubicacionInicial = ?
+    WHERE id = ?
+  `;
+  const values = [usuario_id, evento_id, fechaViaje, plazasDisponibles, ubicacionInicial, id];
+
+  db.query(sql, values, (err, resultado) => {
+    if (err) {
+      console.error('Error al actualizar ecoviaje:', err);
+      return res.status(500).json({ error: 'Error en el servidor' });
+    }
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Ecoviaje no encontrado' });
+    }
+    res.json({ id: Number(id), usuario_id, evento_id, fechaViaje, plazasDisponibles, ubicacionInicial });
+  });
+});
+
+
+//Ruta para eliminar un ecoviaje
+app.delete('/api/ecoviajes/:id', (req, res) => {
+  const id = req.params.id;
+
+  if (!id) {
+    return res.status(400).json({ error: 'ID es requerido' });
+  }
+
+  db.query('DELETE FROM ecoviajes WHERE id = ?', [id], (err, resultado) => {
+    if (err) {
+      console.error('Error al eliminar ecoviaje:', err);
+      return res.status(500).json({ error: 'Error en el servidor' });
+    }
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Ecoviaje no encontrado' });
+    }
+    res.json({ message: 'Ecoviaje eliminado correctamente' });
+  });
+});
 
 
 /*********************************************/
