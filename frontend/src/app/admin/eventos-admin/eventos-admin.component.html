@@ -1,0 +1,101 @@
+<!-- ===================== -->
+<!-- Formulario CREAR -->
+<!-- ===================== -->
+ <div class="evento-formulario">
+
+<form *ngIf="!eventoSeleccionado" (ngSubmit)="guardarEvento()" #formCrear="ngForm">
+  <h3>Crear Evento</h3>
+
+  <div>
+    <label for="nombreCrear">Nombre del Evento:</label>
+    <input
+      id="nombreCrear"
+      name="nombreCrear"
+      type="text"
+      [(ngModel)]="nuevoEvento.nombreEvento"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="fechaCrear">Fecha del Evento:</label>
+    <input
+      type="date"
+      id="fechaCrear"
+      name="fechaCrear"
+      [(ngModel)]="nuevoEvento.fechaEvento"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="tipoCrear">Tipo de Evento:</label>
+    <input
+      id="tipoCrear"
+      name="tipoCrear"
+      type="text"
+      [(ngModel)]="nuevoEvento.tipoEvento"
+      required
+    />
+  </div>
+
+  <button type="submit">Crear</button>
+</form>
+
+<!-- ===================== -->
+<!-- Formulario EDITAR -->
+<!-- ===================== -->
+<form *ngIf="eventoSeleccionado" (ngSubmit)="guardarEvento()" #formEditar="ngForm">
+  <h3>Editar Evento</h3>
+
+  <div>
+    <label for="nombreEditar">Nombre del Evento:</label>
+    <input
+      id="nombreEditar"
+      name="nombreEditar"
+      type="text"
+      [(ngModel)]="eventoSeleccionado.nombreEvento"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="fechaEditar">Fecha del Evento:</label>
+    <input
+      type="date"
+      id="fechaEditar"
+      name="fechaEditar"
+      [(ngModel)]="eventoSeleccionado.fechaEvento"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="tipoEditar">Tipo de Evento:</label>
+    <input
+      id="tipoEditar"
+      name="tipoEditar"
+      type="text"
+      [(ngModel)]="eventoSeleccionado.tipoEvento"
+      required
+    />
+  </div>
+
+  <button type="submit">Actualizar</button>
+  <button type="button" (click)="eventoSeleccionado = null">Cancelar</button>
+</form>
+</div>
+
+<!-- ===================== -->
+<!-- Lista de Eventos -->
+<!-- ===================== -->
+<div class="eventos-lista">
+  <h3>Lista de Eventos</h3>
+  <ul>
+    <li *ngFor="let evento of eventos">
+      <strong>{{ evento.nombreEvento }}</strong> — {{ evento.fechaEvento | date:'yyyy/MM/dd' }} — {{ evento.tipoEvento }}
+      <button (click)="editarEvento(evento)">Editar</button>
+      <button *ngIf="evento.id !== undefined" (click)="eliminarEvento(evento.id)">Eliminar</button>
+    </li>
+  </ul>
+</div>

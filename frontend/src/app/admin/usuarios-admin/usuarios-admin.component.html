@@ -1,0 +1,57 @@
+<div class="usuario-formulario">
+  <!-- Crear usuario -->
+  <form *ngIf="!usuarioSeleccionado" (ngSubmit)="guardarUsuario()" #formCrear="ngForm">
+    <h3>Crear Usuario</h3>
+
+    <div>
+      <label for="nombreCrear">Nombre de usuario:</label>
+      <input id="nombreCrear" name="nombreCrear" type="text" [(ngModel)]="nuevoUsuario.nombre_usuario" required />
+    </div>
+
+    <div>
+      <label for="emailCrear">Email:</label>
+      <input id="emailCrear" name="emailCrear" type="email" [(ngModel)]="nuevoUsuario.email" required />
+    </div>
+
+    <div>
+      <label for="contrasenaCrear">Contraseña:</label>
+      <input id="contrasenaCrear" name="contrasenaCrear" type="password" [(ngModel)]="nuevoUsuario.contrasena" required />
+    </div>
+
+    <button type="submit">Crear</button>
+  </form>
+
+  <!-- Editar usuario -->
+  <form *ngIf="usuarioSeleccionado" (ngSubmit)="guardarUsuario()" #formEditar="ngForm">
+    <h3>Editar Usuario</h3>
+
+    <div>
+      <label for="nombreEditar">Nombre de usuario:</label>
+      <input id="nombreEditar" name="nombreEditar" type="text" [(ngModel)]="usuarioSeleccionado.nombre_usuario" required />
+    </div>
+
+    <div>
+      <label for="emailEditar">Email:</label>
+      <input id="emailEditar" name="emailEditar" type="email" [(ngModel)]="usuarioSeleccionado.email" required />
+    </div>
+
+    <div>
+      <label for="contrasenaEditar">Contraseña:</label>
+      <input id="contrasenaEditar" name="contrasenaEditar" type="password" [(ngModel)]="usuarioSeleccionado.contrasena" required />
+    </div>
+
+    <button type="submit">Actualizar</button>
+    <button type="button" (click)="cancelarEdicion()">Cancelar</button>
+  </form>
+</div>
+
+<div class="usuarios-lista">
+  <h3>Lista de Usuarios</h3>
+  <ul>
+    <li *ngFor="let usuario of usuarios">
+      <strong>{{ usuario.nombre_usuario }}</strong> — {{ usuario.email }} — {{ usuario.fecha_creacion | date:'yyyy/MM/dd' }}
+      <button (click)="editarUsuario(usuario)">Editar</button>
+      <button *ngIf="usuario.id !== undefined" (click)="eliminarUsuario(usuario.id)">Eliminar</button>
+    </li>
+  </ul>
+</div>

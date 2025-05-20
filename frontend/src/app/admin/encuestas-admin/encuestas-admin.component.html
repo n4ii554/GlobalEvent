@@ -1,0 +1,51 @@
+<div class="container">
+  <!-- Panel edición/creación -->
+  <div class="evento-formulario">
+    <h3>{{ encuestaActiva.id ? 'Editar Encuesta' : 'Crear Nueva Encuesta' }}</h3>
+    <label>Evento</label>
+    <select [(ngModel)]="encuestaActiva.evento_id">
+      <option *ngFor="let evento of eventos" [value]="evento.id">{{ evento.nombreEvento }}</option>
+    </select>
+
+    <label>Título</label>
+    <input type="text" 
+    [(ngModel)]="encuestaActiva.titulo" 
+    placeholder="Título" />
+
+    <label>Descripción</label>
+    <textarea [(ngModel)]="encuestaActiva.descripcion" 
+    placeholder="Descripción"></textarea>
+
+    <hr />
+
+    <div *ngIf="encuestaActiva && encuestaActiva.preguntas && encuestaActiva.preguntas.length > 0">
+    
+     <h4>Pregunta</h4>
+    <input type="text" 
+      [(ngModel)]="encuestaActiva.preguntas[0].texto_pregunta" 
+      placeholder="Texto pregunta" />
+
+    <hr />
+
+    <h4>Opciones (3 fijas)</h4>
+    <div *ngFor="let opcion of encuestaActiva.preguntas[0].opciones; let i = index">
+      <input type="text" 
+        [(ngModel)]="opcion.texto_opcion" 
+        placeholder="Opción {{ i + 1 }}" />
+    </div>
+
+    <button (click)="guardarEncuesta()" style="margin-top: 1rem;">Guardar Encuesta</button>
+  </div>
+
+  <!-- Panel lista encuestas -->
+  <div class="eventos-lista">
+    <h3>Lista de Encuestas</h3>
+    <ul>
+      <li *ngFor="let enc of encuestas">
+        <strong>{{ enc.titulo }}</strong> - {{ enc.descripcion }} (Evento: {{ getNombreEvento(enc.evento_id) }})
+        <button (click)="seleccionarEncuestaParaEditar(enc)" style="margin-left: 1rem;">Editar</button>
+        <button (click)="eliminarEncuesta(enc.id!)" style="margin-left: 0.5rem;">Eliminar</button>
+      </li>
+    </ul>
+  </div>
+</div>

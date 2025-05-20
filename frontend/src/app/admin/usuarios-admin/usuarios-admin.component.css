@@ -1,0 +1,167 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px; /* espacio entre columnas */
+  padding: 30px 15px;
+  background-color: #f3f0db;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #333;
+  flex-wrap: wrap; /* para que en pantallas pequeñas bajen */
+}
+
+/* Contenedor de la lista de usuarios */
+.usuarios-lista {
+  background-color: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  width: 350px;
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Contenedor del formulario de usuario */
+.usuario-formulario {
+  background-color: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  width: 350px;
+  box-sizing: border-box;
+}
+
+/* Lista de usuarios */
+.usuarios-lista ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.usuarios-lista > h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4caf50;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.usuarios-lista ul li {
+  background-color: #fff;
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 8px #00000011;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-wrap: wrap;
+}
+
+.usuarios-lista ul li strong {
+  color: #4caf50;
+  margin-right: 15px;
+  flex-grow: 1;
+  min-width: 120px;
+}
+
+.usuarios-lista ul li button {
+  width: auto;
+  margin-left: 10px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+}
+
+.usuarios-lista ul li button:hover {
+  box-shadow: none;
+}
+
+/* Formulario dentro de usuario-formulario */
+.usuario-formulario h3 {
+  text-align: center;
+  color: #4caf50;
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.usuario-formulario div {
+  margin-bottom: 15px;
+}
+
+.usuario-formulario input[type="text"],
+.usuario-formulario input[type="email"],
+.usuario-formulario input[type="password"] {
+  width: 95%;
+  padding: 9px 10px;
+  margin: 5px 0 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.usuario-formulario input[type="text"]:focus,
+.usuario-formulario input[type="email"]:focus,
+.usuario-formulario input[type="password"]:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.usuario-formulario button {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.usuario-formulario button:hover {
+  background-color: #45a049;
+  box-shadow: 0 0 8px #45a049aa;
+}
+
+.usuario-formulario button[type="button"] {
+  margin-top: 10px;
+  background-color: #ccc;
+  color: #333;
+}
+
+.usuario-formulario button[type="button"]:hover {
+  background-color: #bbb;
+  box-shadow: none;
+}
+
+.usuario-formulario label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #4a4a4a;
+  font-size: 1rem; 
+  line-height: 1.3; 
+}
+
+/* Responsive: en pantallas muy pequeñas, apila en columna */
+@media (max-width: 760px) {
+  :host {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .usuario-formulario,
+  .usuarios-lista {
+    width: 90%;
+    max-width: 400px;
+  }
+}
