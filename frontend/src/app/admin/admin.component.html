@@ -7,7 +7,7 @@
     <button (click)="seleccionarSeccion('eventos')" [class.active]="seccionActiva === 'eventos'">Eventos</button>
     <button (click)="seleccionarSeccion('encuestas')" [class.active]="seccionActiva === 'encuestas'">Encuestas</button>
     <button (click)="seleccionarSeccion('ecoviajes')" [class.active]="seccionActiva === 'ecoviajes'">Ecoviajes</button>
-
+    <button (click)="seleccionarSeccion('publicaciones')" [class.active]="seccionActiva === 'publicaciones'">Publicaciones</button>
   </div>
 
   <!-- Mostrar el componente según la sección activa -->
@@ -16,6 +16,7 @@
     <app-eventos-admin *ngIf="seccionActiva === 'eventos'"></app-eventos-admin>
     <app-encuestas-admin *ngIf="seccionActiva === 'encuestas'"></app-encuestas-admin>
     <app-ecoviajes-admin *ngIf="seccionActiva === 'ecoviajes'"></app-ecoviajes-admin>
+    <app-publicaciones-admin *ngIf="seccionActiva === 'publicaciones'"></app-publicaciones-admin>
   </div>
 </div>
 </div>

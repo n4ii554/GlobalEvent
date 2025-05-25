@@ -27,7 +27,7 @@ export class EcoviajesAdminComponent implements OnInit {
   };
 
   usuarios: Usuario[] = [];
-    eventos: Evento[] = [];
+  eventos: Evento[] = [];
   ecoViajeSeleccionado: Ecoviaje | null = null;
 
   constructor(
