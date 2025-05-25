@@ -134,7 +134,7 @@ app.post('/register', (req, res) => {
 
 // Ruta para obtener todos los eventos
 app.get('/api/eventos', (req, res) => {
-    const query = 'SELECT id, nombreEvento, fechaEvento, tipoEvento FROM eventos';
+    const query = 'SELECT * FROM eventos ORDER BY RAND()';
 
     db.query(query, (err, results) => {
         if (err) {
@@ -149,7 +149,7 @@ app.get('/api/eventos', (req, res) => {
 // Ruta para obtener un solo evento por su ID
 app.get('/api/eventos/:id', (req, res) => {
   const { id } = req.params;
-  const query = 'SELECT id, nombreEvento, fechaEvento, tipoEvento FROM eventos WHERE id = ?';
+  const query = 'SELECT id, nombreEvento, fechaEvento, tipoEvento, imagenUrl FROM eventos WHERE id = ?';
 
   db.query(query, [id], (err, results) => {
     if (err) {
@@ -168,10 +168,10 @@ app.get('/api/eventos/:id', (req, res) => {
 
 // Ruta para crear un nuevo evento
 app.post('/api/eventos', (req, res) => {
-  const { nombreEvento, fechaEvento, tipoEvento } = req.body;
+  const { nombreEvento, fechaEvento, tipoEvento, imagenUrl } = req.body;
 
   // Validación simple
-  if (!nombreEvento || !fechaEvento || !tipoEvento) {
+  if (!nombreEvento || !fechaEvento || !tipoEvento || !imagenUrl) {
     return res.status(400).json({ error: 'Faltan datos obligatorios' });
   }
 

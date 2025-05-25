@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import axios from 'axios';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
@@ -16,6 +17,8 @@ export class RegisterComponent {
   contrasena: string = '';
   errorMessage: string = '';
 
+  constructor(private router: Router) { }
+
   async register(event: Event) {
     event.preventDefault();
     try {
@@ -24,12 +27,13 @@ export class RegisterComponent {
         email: this.email,
         contrasena: this.contrasena
       });
-  
+
       console.log('Registro exitoso:', response.data);
+      this.router.navigate(['/login']);
     } catch (error: any) {
       console.error('Error al intentar registrarse:', error);
       this.errorMessage = error.response?.data?.message || 'Error al intentar registrarse.';
     }
   }
-  
+
 }

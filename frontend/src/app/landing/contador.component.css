@@ -1,0 +1,96 @@
+/* ======== Contador regresivo – estilo “pro” ======== */
+.countdown {
+    max-width: 540px;
+    margin: 3.5rem auto 5rem;
+    margin-bottom: 150px;
+    padding: 2rem 2.5rem 2.8rem;
+    text-align: center;
+
+    background: #fefefe;
+    border-radius: 1.25rem;
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.06),
+    0 8px 24px rgba(0,0,0,.08);
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.count-title {
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    font-weight: 600;
+    margin-bottom: 1.4rem;
+    color: #1b1b1b;
+    letter-spacing: .2px;
+}
+
+/* ----- cajas de tiempo ----- */
+.boxes {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 1.6rem;
+}
+
+.boxes span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .15rem;
+    min-width: 72px;
+
+    background: linear-gradient(160deg, #4f62ff, #5468ff 60%, #6073ff);
+    color: #fff;
+    padding: .75rem 1rem;
+    border-radius: .75rem;
+    box-shadow: 0 3px 10px rgba(79, 97, 255, .35);
+    transition: transform .25s;
+}
+
+.boxes span:hover {
+    transform: translateY(-4px);
+}
+
+.boxes strong {
+    font-size: 1.55rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.boxes small {
+    font-size: .75rem;
+    letter-spacing: .4px;
+    opacity: .9;
+}
+
+/* ----- texto inferior ----- */
+.next-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #333;
+    margin: .3rem 0;
+}
+
+.next-date {
+    margin: 0;
+    font-size: .9rem;
+    color: #666;
+}
+
+/* -- dark mode (opcional) -- */
+@media (prefers-color-scheme: dark) {
+    .countdown {
+        background: #d7d3b2;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .65);
+    }
+
+    .count-title {
+        color: #000000;
+    }
+
+    .next-name {
+        color: #000000;
+    }
+
+    .next-date {
+        color: #000000;
+    }
+}

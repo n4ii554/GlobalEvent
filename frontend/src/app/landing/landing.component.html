@@ -1,0 +1,79 @@
+<section class="eventos">
+    <h1>Desde el escenario a tu recuerdo, ¡no te lo pierdas!</h1>
+
+    <div class="grid">
+        <article class="card" *ngFor="let evento of eventos">
+            <img class="card__img" [src]="evento.imagenUrl" [alt]="evento.nombreEvento" />
+            <div class="card__body">
+                <h2 class="card__title">{{ evento.nombreEvento }}</h2>
+                <p class="card__text"><strong>Fecha:</strong> {{ evento.fechaEvento | date:'longDate' }}</p>
+                <p class="card__text"><strong>Tipo:</strong> {{ evento.tipoEvento }}</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<h1 class="tituloCarrusel">¡VIVE LA MÚSICA, VIVE EL MOMENTO!</h1>
+
+<section class="carousel">
+    <button class="nav prev" (click)="prev()">‹</button>
+
+    <div class="track" [style.transform]="'translateX(-' + current * 100 + '%)'">
+        <div class="slide" *ngFor="let e of eventos">
+            <img [src]="e.imagenUrl" [alt]="e.nombreEvento" />
+            <div class="caption">{{ e.nombreEvento }}</div>
+        </div>
+    </div>
+
+    <button class="nav next" (click)="next()">›</button>
+
+    <div class="dots">
+        <span class="dot" *ngFor="let _ of eventos; let i = index" [class.active]="i === current" (click)="current = i">
+        </span>
+    </div>
+</section>
+
+<!-- Contador implementado con: https://www.youtube.com/watch?v=XLEf3cm2PGk -->
+<app-contador *ngIf="eventoProximo" [fecha]="eventoProximo.fechaEvento" [nombreEvento]="eventoProximo.nombreEvento"></app-contador>
+
+<section class="contacto-hero">
+    <div class="contacto-contenedor">
+        <h2 class="contacto-titulo">¿Necesitas ayuda con tu Evento?</h2>
+        <p class="contacto-sub">Pide ayuda a nuestro equipo de creadores especializados.</p>
+
+        <form (ngSubmit)="enviar()" #f="ngForm" class="contacto-form">
+
+            <h3>Contacto Global Event</h3>
+            <hr />
+            <div class="doble">
+                <div class="campo">
+                    <label>Nombre *</label>
+                    <input type="text" required [(ngModel)]="contacto.nombre" name="nombre">
+                </div>
+                <div class="campo">
+                    <label>Apellidos *</label>
+                    <input type="text" required name="apellidos">
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>Correo electrónico *</label>
+                <input type="email" required [(ngModel)]="contacto.email" name="email">
+            </div>
+
+            <div class="campo">
+                <label>Teléfono</label>
+                <input type="tel" name="telefono">
+            </div>
+
+            <div class="campo">
+                <label>Mensaje</label>
+                <textarea rows="4" [(ngModel)]="contacto.mensaje" name="mensaje"
+                    placeholder="Cuéntanos tu idea..."></textarea>
+            </div>
+
+            <button type="submit" [disabled]="!f.valid">ENVIAR</button>
+        </form>
+    </div>
+
+</section>
