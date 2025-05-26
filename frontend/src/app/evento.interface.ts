@@ -3,4 +3,5 @@ export interface Evento {
     nombreEvento: string;
     fechaEvento: string; 
     tipoEvento: string;
+    imagenUrl: string;
 }

@@ -1,0 +1,19 @@
+<!-- eventos.component.html -->
+<h1 class="titulo">Descubre ahora los conciertos y festivales que marcarán tu 2025: guarda fechas, y vive experiencias inolvidables juntos hoy.</h1>
+<div class="eventos-wrapper" *ngIf="eventos?.length; else sinEventos">
+    <article class="evento-card" *ngFor="let ev of eventos">
+        <img class="evento-img" [src]="ev.imagenUrl" [alt]="ev.nombreEvento" />
+
+        <div class="evento-detalle">
+            <h2 class="evento-nombre">{{ ev.nombreEvento }}</h2>
+            <p class="evento-fecha">
+                {{ ev.fechaEvento }}
+            </p>
+            <span class="evento-tipo">{{ ev.tipoEvento }}</span>
+        </div>
+    </article>
+</div>
+
+<ng-template #sinEventos>
+    <p class="sin-eventos">No hay eventos para mostrar.</p>
+</ng-template>

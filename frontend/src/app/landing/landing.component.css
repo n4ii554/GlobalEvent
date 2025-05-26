@@ -141,7 +141,7 @@
 }
 
 .tituloCarrusel {
-    margin-left: 33%;
+    margin-left: 1060px;
     margin-top: 150px;
 }
 
@@ -236,7 +236,7 @@
     margin-top: 1rem;
     padding: .75rem 2.5rem;
     background: #fff;
-    color: #9ea0ad;
+    color: #000000;
     border: none;
     border-radius: .75rem;
     font-weight: 600;

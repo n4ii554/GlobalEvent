@@ -51,8 +51,8 @@
                     <input type="text" required [(ngModel)]="contacto.nombre" name="nombre">
                 </div>
                 <div class="campo">
-                    <label>Apellidos *</label>
-                    <input type="text" required name="apellidos">
+                    <label>Apellidos</label>
+                    <input type="text" required [(ngModel)]="contacto.apellidos" name="apellidos">
                 </div>
             </div>
 
@@ -63,11 +63,11 @@
 
             <div class="campo">
                 <label>Teléfono</label>
-                <input type="tel" name="telefono">
+                <input type="tel" [(ngModel)]="contacto.telefono" name="telefono">
             </div>
 
             <div class="campo">
-                <label>Mensaje</label>
+                <label>Mensaje *</label>
                 <textarea rows="4" [(ngModel)]="contacto.mensaje" name="mensaje"
                     placeholder="Cuéntanos tu idea..."></textarea>
             </div>
