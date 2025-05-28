@@ -5,19 +5,20 @@
         <form (submit)="register($event)">
             <div class="inputs">
                 <label for="nombre_usuario">Nombre de usuario</label>
-                <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="nombre_usuario" required />
+                <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="Juan333" required />
             </div>
             <div class="inputs">
                 <label for="email">Correo electrónico</label>
-                <input type="email" [(ngModel)]="email" name="email" placeholder="email" required />
+                <input type="email" [(ngModel)]="email" name="email" placeholder="juan@ejemplo.com" required />
             </div>
             <div class="inputs">
                 <label for="contrasena">Contraseña</label>
-                <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="contrasena" required />
+                <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="Xx12abc45" required />
             </div>
 
             <button type="submit">Registrate!</button>
 
             <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
         </form>
+        <p style="margin-left: 70px;">¿Ya estas registrado? Inicia sesión <a href="login">aquí</a></p>
     </div>

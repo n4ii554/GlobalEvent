@@ -1,0 +1,50 @@
+<section class="form-wrapper">
+    <h2>Crear nuevo evento</h2>
+    <div class="page-center">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+            <div class="field">
+                <label for="nombreEvento">Nombre *</label>
+                <input id="nombreEvento" formControlName="nombreEvento" [class.invalid]="invalid('nombreEvento')" />
+                <small *ngIf="invalid('nombreEvento')">Obligatorio</small>
+            </div>
+
+            <div class="field">
+                <label for="fechaEvento">Fecha *</label>
+                <input id="fechaEvento" type="date" formControlName="fechaEvento"
+                    [class.invalid]="invalid('fechaEvento')" />
+                <small *ngIf="invalid('fechaEvento')">Obligatorio</small>
+            </div>
+
+            <div class="field">
+                <label for="tipoEvento">Tipo *</label>
+                <select id="tipoEvento" formControlName="tipoEvento" [class.invalid]="invalid('tipoEvento')">
+                    <option value="" disabled selected>Selecciona…</option>
+                    <option value="Concierto">Concierto</option>
+                    <option value="Taller">Taller</option>
+                    <option value="Conferencia">Conferencia</option>
+                    <option value="Festival">Festival</option>
+                </select>
+                <small *ngIf="invalid('tipoEvento')">Obligatorio</small>
+            </div>
+
+            <div class="upload-zone" [class.dragover]="isDragOver" [class.has-image]="previewUrl"
+                (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+                <img *ngIf="previewUrl" [src]="previewUrl" class="thumb" alt="previsualización" />
+                <p>Arrastra y suelta la imagen aquí<br />o haz clic para elegir un archivo</p>
+                <input id="fileInput" type="file" accept="image/*" (change)="onFileSelected($event)" />
+                <div class="progress" *ngIf="uploading">
+                    <div class="bar" [style.width.%]="uploadProgress"></div>
+                </div>
+            </div>
+            <small *ngIf="invalid('imagenUrl')">La imagen es obligatoria</small>
+
+            <p class="error" *ngIf="error">{{ error }}</p>
+            <p class="success" *ngIf="success">¡Evento creado!</p>
+
+            <button class="btn" type="submit" [disabled]="form.invalid || loading || uploading">
+                {{ loading ? 'Creando…' : 'Crear evento' }}
+            </button>
+        </form>
+    </div>
+</section>

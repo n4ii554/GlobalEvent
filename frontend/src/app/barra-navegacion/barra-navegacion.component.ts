@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, HostListener, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { inject } from '@angular/core';
-import { UsersService } from '../services/users.service';  // ⬅️ Ajusta la ruta si es necesario
+import { UsersService } from '../services/users.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -10,15 +9,30 @@ import { AuthService } from '../auth.service';
   standalone: true,
   imports: [RouterModule, CommonModule],
   templateUrl: './barra-navegacion.component.html',
-  styleUrl: './barra-navegacion.component.css'
+  styleUrl: './barra-navegacion.component.css',
 })
 export class BarraNavegacionComponent {
-  usersService = inject(UsersService);  // ⬅️ Esta línea permite usar el servicio en el HTML
+  usersService = inject(UsersService);
+  private router = inject(Router);
   constructor(public auth: AuthService) {}
 
+  /** controla la apertura del menú */
+  menuOpen = false;
 
-  logout() {
-    localStorage.removeItem('token');
-    window.location.reload();
+  toggleMenu(event: MouseEvent): void {
+    event.stopPropagation(); // evita que el HostListener cierre inmediatamente
+    this.menuOpen = !this.menuOpen;
+  }
+
+  /** cierra al hacer clic fuera del componente */
+  @HostListener('document:click') closeMenu(): void {
+    this.menuOpen = false;
+  }
+
+  logout(): void {
+    this.menuOpen = false;
+    this.auth.logout?.();            // si tu servicio lo implementa
+    localStorage.removeItem('token'); // opcional
+    this.router.navigate(['/']);
   }
 }

@@ -17,18 +17,18 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configuración de la base de datos
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 db.connect(err => {
-    if (err) {
-        console.error('Error al conectar a la base de datos: ', err);
-        return;
-    }
-    console.log('Conectado a la base de datos MySQL.');
+  if (err) {
+    console.error('Error al conectar a la base de datos: ', err);
+    return;
+  }
+  console.log('Conectado a la base de datos MySQL.');
 });
 
 /*********************************************/
@@ -37,7 +37,7 @@ db.connect(err => {
 
 // Ruta para iniciar el servidor
 app.listen(port, () => {
-    console.log(`Servidor Express corriendo en el puerto ${port}`);
+  console.log(`Servidor Express corriendo en el puerto ${port}`);
 });
 
 /*********************************************/
@@ -46,38 +46,38 @@ app.listen(port, () => {
 
 // Ruta para el login
 app.post('/login', (req, res) => {
-    
-    const { nombre_usuario, contrasena } = req.body;
 
-    if (!nombre_usuario || !contrasena) {
-        return res.status(400).json({ error: 'Nombre de usuario y contraseña son requeridos.' });
+  const { nombre_usuario, contrasena } = req.body;
+
+  if (!nombre_usuario || !contrasena) {
+    return res.status(400).json({ error: 'Nombre de usuario y contraseña son requeridos.' });
+  }
+
+  db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Error al consultar la base de datos.' });
+
+    if (results.length === 0) {
+      return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
     }
 
-    db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario], (err, results) => {
-        if (err) return res.status(500).json({ error: 'Error al consultar la base de datos.' });
+    const usuario = results[0];
 
-        if (results.length === 0) {
-            return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
-        }
+    bcrypt.compare(contrasena, usuario.contrasena, (err, isMatch) => {
+      if (err) return res.status(500).json({ error: 'Error al comparar las contraseñas.' });
 
-        const usuario = results[0];
+      if (!isMatch) {
+        return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
+      }
 
-        bcrypt.compare(contrasena, usuario.contrasena, (err, isMatch) => {
-            if (err) return res.status(500).json({ error: 'Error al comparar las contraseñas.' });
+      const token = jwt.sign(
+        { id: usuario.id, nombre_usuario: usuario.nombre_usuario },
+        'tu_clave_secreta',
+        { expiresIn: '1h' }
+      );
 
-            if (!isMatch) {
-                return res.status(400).json({ error: 'Usuario o contraseña incorrectos.' });
-            }
-
-            const token = jwt.sign(
-                { id: usuario.id, nombre_usuario: usuario.nombre_usuario },
-                'tu_clave_secreta',
-                { expiresIn: '1h' }
-            );
-
-            return res.json({ message: 'Login exitoso', token });
-        });
+      return res.json({ message: 'Login exitoso', token });
     });
+  });
 });
 
 /*********************************************/
@@ -86,44 +86,44 @@ app.post('/login', (req, res) => {
 
 // Ruta para el registro
 app.post('/register', (req, res) => {
-    console.log('Cuerpo de la solicitud:', req.body);
-    const { nombre_usuario, email, contrasena } = req.body;
+  console.log('Cuerpo de la solicitud:', req.body);
+  const { nombre_usuario, email, contrasena } = req.body;
 
-    // Validación básica
-    if (!nombre_usuario || !email || !contrasena) {
-        return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+  // Validación básica
+  if (!nombre_usuario || !email || !contrasena) {
+    return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+  }
+
+  // Verificar si el nombre de usuario ya existe
+  db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error al verificar el usuario.' });
     }
 
-    // Verificar si el nombre de usuario ya existe
-    db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario], (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: 'Error al verificar el usuario.' });
+    if (results.length > 0) {
+      return res.status(400).json({ message: 'El nombre de usuario ya está en uso.' });
+    }
+
+    // Encriptar contraseña
+    bcrypt.hash(contrasena, 10, (err, hash) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error al encriptar la contraseña.' });
+      }
+
+      // Insertar usuario
+      db.query(
+        'INSERT INTO usuarios (nombre_usuario, email, contrasena) VALUES (?, ?, ?)',
+        [nombre_usuario, email, hash],
+        (err, result) => {
+          if (err) {
+            return res.status(500).json({ message: 'Error al registrar el usuario.' });
+          }
+
+          return res.status(201).json({ message: 'Usuario registrado exitosamente.' });
         }
-
-        if (results.length > 0) {
-            return res.status(400).json({ message: 'El nombre de usuario ya está en uso.' });
-        }
-
-        // Encriptar contraseña
-        bcrypt.hash(contrasena, 10, (err, hash) => {
-            if (err) {
-                return res.status(500).json({ message: 'Error al encriptar la contraseña.' });
-            }
-
-            // Insertar usuario
-            db.query(
-                'INSERT INTO usuarios (nombre_usuario, email, contrasena) VALUES (?, ?, ?)',
-                [nombre_usuario, email, hash],
-                (err, result) => {
-                    if (err) {
-                        return res.status(500).json({ message: 'Error al registrar el usuario.' });
-                    }
-
-                    return res.status(201).json({ message: 'Usuario registrado exitosamente.' });
-                }
-            );
-        });
+      );
     });
+  });
 });
 
 /*********************************************/
@@ -134,16 +134,16 @@ app.post('/register', (req, res) => {
 
 // Ruta para obtener todos los eventos
 app.get('/api/eventos', (req, res) => {
-    const query = 'SELECT * FROM eventos ORDER BY RAND()';
+  const query = 'SELECT * FROM eventos ORDER BY RAND()';
 
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Error al obtener eventos:', err);
-            return res.status(500).json({ error: 'Error al obtener los eventos.' });
-        }
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener eventos:', err);
+      return res.status(500).json({ error: 'Error al obtener los eventos.' });
+    }
 
-        res.json(results);
-    });
+    res.json(results);
+  });
 });
 
 // Ruta para obtener un solo evento por su ID
@@ -170,30 +170,34 @@ app.get('/api/eventos/:id', (req, res) => {
 app.post('/api/eventos', (req, res) => {
   const { nombreEvento, fechaEvento, tipoEvento, imagenUrl } = req.body;
 
-  // Validación simple
   if (!nombreEvento || !fechaEvento || !tipoEvento || !imagenUrl) {
     return res.status(400).json({ error: 'Faltan datos obligatorios' });
   }
 
-  const query = 'INSERT INTO eventos (nombreEvento, fechaEvento, tipoEvento) VALUES (?, ?, ?)';
-  db.query(query, [nombreEvento, fechaEvento, tipoEvento], (err, result) => {
+  const sql = `
+    INSERT INTO eventos (nombreEvento, fechaEvento, tipoEvento, imagenUrl)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db.query(sql, [nombreEvento, fechaEvento, tipoEvento, imagenUrl], (err, result) => {
     if (err) {
       console.error('Error al crear evento:', err);
       return res.status(500).json({ error: 'Error al crear evento' });
     }
 
-    // Opcional: devolver el evento creado con su ID
     res.status(201).json({
       id: result.insertId,
       nombreEvento,
       fechaEvento,
-      tipoEvento
+      tipoEvento,
+      imagenUrl
     });
   });
- }); 
-  
+});
 
-  // Ruta para eliminar evento
+
+
+// Ruta para eliminar evento
 app.delete('/api/eventos/:id', (req, res) => {
   const id = req.params.id;
 
@@ -222,7 +226,7 @@ app.put('/api/eventos/:id', (req, res) => {
     return res.status(400).json({ error: 'Faltan datos obligatorios' });
   }
 
-console.log('req.body:', req.body);
+  console.log('req.body:', req.body);
 
 
   const query = 'UPDATE eventos SET nombreEvento = ?, fechaEvento = ?, tipoEvento = ? WHERE id = ?';
@@ -246,90 +250,90 @@ console.log('req.body:', req.body);
 //Ruta para obtener todos los usuarios
 
 app.get('/api/usuarios', (req, res) => {
-    const query = 'SELECT id, nombre_usuario, email, contrasena, fecha_creacion FROM usuarios';
+  const query = 'SELECT id, nombre_usuario, email, contrasena, fecha_creacion FROM usuarios';
 
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Error al obtener usuarios:', err);
-            return res.status(500).json({ error: 'Error al obtener los usuarios.' });
-        }
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener usuarios:', err);
+      return res.status(500).json({ error: 'Error al obtener los usuarios.' });
+    }
 
-        res.json(results);
-    });
+    res.json(results);
+  });
 });
 
 //Ruta para crear un nuevo usuario
 
 app.post('/api/usuarios', (req, res) => {
-    const { nombre_usuario, email, contrasena } = req.body;
+  const { nombre_usuario, email, contrasena } = req.body;
 
-    if (!nombre_usuario || !email || !contrasena) {
-        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+  if (!nombre_usuario || !email || !contrasena) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+  }
+
+  // Encriptar contraseña
+  bcrypt.hash(contrasena, 10, (err, hash) => {
+    if (err) {
+      console.error('Error al cifrar la contraseña:', err);
+      return res.status(500).json({ error: 'Error al cifrar la contraseña.' });
     }
 
-    // Encriptar contraseña
-    bcrypt.hash(contrasena, 10, (err, hash) => {
-        if (err) {
-            console.error('Error al cifrar la contraseña:', err);
-            return res.status(500).json({ error: 'Error al cifrar la contraseña.' });
-        }
+    const query = 'INSERT INTO usuarios (nombre_usuario, email, contrasena, fecha_creacion) VALUES (?, ?, ?, NOW())';
+    db.query(query, [nombre_usuario, email, hash], (err, result) => {
+      if (err) {
+        console.error('Error al crear usuario:', err);
+        return res.status(500).json({ error: 'Error al crear el usuario.' });
+      }
 
-        const query = 'INSERT INTO usuarios (nombre_usuario, email, contrasena, fecha_creacion) VALUES (?, ?, ?, NOW())';
-        db.query(query, [nombre_usuario, email, hash], (err, result) => {
-            if (err) {
-                console.error('Error al crear usuario:', err);
-                return res.status(500).json({ error: 'Error al crear el usuario.' });
-            }
-
-            res.status(201).json({ id: result.insertId, nombre_usuario, email });
-        });
+      res.status(201).json({ id: result.insertId, nombre_usuario, email });
     });
+  });
 });
 
 
 //Ruta para modificar un usuario
 
 app.put('/api/usuarios/:id', (req, res) => {
-    const id = req.params.id;
-    const { nombre_usuario, email, contrasena } = req.body;
+  const id = req.params.id;
+  const { nombre_usuario, email, contrasena } = req.body;
 
-    if (!nombre_usuario || !email || !contrasena) {
-        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+  if (!nombre_usuario || !email || !contrasena) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+  }
+
+  bcrypt.hash(contrasena, 10, (err, hash) => {
+    if (err) {
+      console.error('Error al cifrar la contraseña:', err);
+      return res.status(500).json({ error: 'Error al cifrar la contraseña.' });
     }
 
-    bcrypt.hash(contrasena, 10, (err, hash) => {
-        if (err) {
-            console.error('Error al cifrar la contraseña:', err);
-            return res.status(500).json({ error: 'Error al cifrar la contraseña.' });
-        }
+    const query = 'UPDATE usuarios SET nombre_usuario = ?, email = ?, contrasena = ? WHERE id = ?';
+    db.query(query, [nombre_usuario, email, hash, id], (err) => {
+      if (err) {
+        console.error('Error al actualizar usuario:', err);
+        return res.status(500).json({ error: 'Error al actualizar el usuario.' });
+      }
 
-        const query = 'UPDATE usuarios SET nombre_usuario = ?, email = ?, contrasena = ? WHERE id = ?';
-        db.query(query, [nombre_usuario, email, hash, id], (err) => {
-            if (err) {
-                console.error('Error al actualizar usuario:', err);
-                return res.status(500).json({ error: 'Error al actualizar el usuario.' });
-            }
-
-            res.json({ message: 'Usuario actualizado correctamente.' });
-        });
+      res.json({ message: 'Usuario actualizado correctamente.' });
     });
+  });
 });
 
 //Ruta para eliminar un usuario
 
 app.delete('/api/usuarios/:id', (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const query = 'DELETE FROM usuarios WHERE id = ?';
+  const query = 'DELETE FROM usuarios WHERE id = ?';
 
-    db.query(query, [id], (err) => {
-        if (err) {
-            console.error('Error al eliminar usuario:', err);
-            return res.status(500).json({ error: 'Error al eliminar el usuario.' });
-        }
+  db.query(query, [id], (err) => {
+    if (err) {
+      console.error('Error al eliminar usuario:', err);
+      return res.status(500).json({ error: 'Error al eliminar el usuario.' });
+    }
 
-        res.json({ message: 'Usuario eliminado correctamente.', id });
-    });
+    res.json({ message: 'Usuario eliminado correctamente.', id });
+  });
 });
 
 /*********************************************/
@@ -413,26 +417,26 @@ app.put('/api/encuestas/:id', async (req, res) => {
   const { titulo, descripcion, evento_id } = req.body;
 
   if (!evento_id || !titulo) {
-      return res.status(400).json({ error: 'Evento e título son obligatorios' });
+    return res.status(400).json({ error: 'Evento e título son obligatorios' });
+  }
+
+  try {
+    const [result] = await db
+      .promise()
+      .query(
+        'UPDATE encuestas SET titulo = ?, descripcion = ?, evento_id = ? WHERE id = ?',
+        [titulo, descripcion, evento_id, id]
+      );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Encuesta no encontrada' });
     }
 
-    try {
-      const [result] = await db
-        .promise()
-        .query(
-          'UPDATE encuestas SET titulo = ?, descripcion = ?, evento_id = ? WHERE id = ?',
-          [titulo, descripcion, evento_id, id]
-        );
-
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ message: 'Encuesta no encontrada' });
-      }
-
-      res.json({ message: 'Encuesta actualizada correctamente' });
-    } catch (error) {
-      console.error('❌ Error al actualizar encuesta:', error);
-      res.status(500).json({ error: 'Error al actualizar la encuesta' });
-    }
+    res.json({ message: 'Encuesta actualizada correctamente' });
+  } catch (error) {
+    console.error('❌ Error al actualizar encuesta:', error);
+    res.status(500).json({ error: 'Error al actualizar la encuesta' });
+  }
 });
 
 
@@ -462,7 +466,7 @@ app.post('/api/encuestas/:encuestaId/preguntas', (req, res) => {
   const query = 'INSERT INTO preguntas (encuesta_id, texto_pregunta) VALUES (?, ?)';
   db.query(query, [encuestaId, texto_pregunta], (err, result) => {
     if (err) return res.status(500).json({ error: 'Error creando pregunta' });
-    res.status(201).json({ id: result.insertId, encuesta_id: encuestaId, texto_pregunta});
+    res.status(201).json({ id: result.insertId, encuesta_id: encuestaId, texto_pregunta });
   });
 });
 
@@ -543,7 +547,7 @@ app.put('/api/opciones/:id', (req, res) => {
 
 // Ruta para enviar respuestas de un usuario (puede incluir varias opciones por pregunta)
 app.post('/api/respuestas', (req, res) => {
-  const { usuario_id, respuestas } = req.body; 
+  const { usuario_id, respuestas } = req.body;
   // respuestas = [{ pregunta_id, opcion_id }, ...]
 
   if (!usuario_id || !Array.isArray(respuestas) || respuestas.length === 0) {

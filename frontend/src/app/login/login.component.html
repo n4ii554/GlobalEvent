@@ -1,16 +1,17 @@
 <div class="login-header">
     <img src="../../assets/logo.png" alt="GlobalEvent" class="app-logo" />
-  </div>
+</div>
 
 <div class="login-container">
     <h1 class="app-title">Login</h1>
     <form (submit)="login($event)">
-        <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="nombre_usuario" required />
-        <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="contrasena" required />
+        <input type="text" [(ngModel)]="nombre_usuario" name="nombre_usuario" placeholder="Nombre de Usuario" required />
+        <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="Contraseña" required />
         <button type="submit">Iniciar sesión</button>
 
         <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
     </form>
+    <p style="margin-left: 70px;">¿Aún no estas registrado? Hazlo <a href="register">aquí</a></p>
 </div>
 
 <script src="login.js"></script>

@@ -1,37 +1,57 @@
 <nav class="navbar container-fluid">
-    <img class="logo" src="../../assets/logo.png" alt="Logo">
+
+    <img class="logo" src="../../assets/logo.png" alt="Logo" />
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
             <li class="nav-item">
                 <a class="nav-link active custom-navlink" [routerLink]="['/']">Inicio</a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link custom-navlink" [routerLink]="['/eventos']"
                     routerLinkActive="router-link-active">Eventos</a>
             </li>
+
             <li class="nav-item" *ngIf="usersService.isLogged()">
                 <a class="nav-link custom-navlink" [routerLink]="['/calendario']"
                     routerLinkActive="router-link-active">Calendario</a>
             </li>
+
             <li class="nav-item" *ngIf="usersService.isLogged()">
                 <a class="nav-link custom-navlink" [routerLink]="['/crear']"
                     routerLinkActive="router-link-active">Creación</a>
             </li>
+
             <li class="nav-item" *ngIf="auth.isAdmin()">
-                <a class="nav-link custom-navlink" [routerLink]="['/admin']" routerLinkActive="router-link-active">
-                    Admin
-                </a>
+                <a class="nav-link custom-navlink" [routerLink]="['/admin']"
+                    routerLinkActive="router-link-active">Admin</a>
             </li>
 
-        </ul>
 
-        <div class="btn-group dropstart custom-dropdown">
-            <ul class="dropdown-menu">
-                <li *ngIf="!usersService.isLogged()">
-                    <a class="dropdown-item custom-item" [routerLink]="['/login']"
-                        routerLinkActive="router-link-active">Iniciar Sesión</a>
-                </li>
-            </ul>
-        </div>
+
+            <li class="nav-item ms-auto position-relative" *ngIf="usersService.isLogged()">
+                <button class="nav-link p-0 border-0 bg-transparent user-icon-link" (click)="toggleMenu($event)">
+                    <i class="bi bi-person-circle fs-4"></i>
+                </button>
+
+
+                <ul class="simple-menu shadow" *ngIf="menuOpen">
+                    <li>
+                        <button class="dropdown-item" (click)="logout()">
+                            Cerrar sesión
+                        </button>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li class="nav-item ms-auto" *ngIf="!usersService.isLogged()">
+                <a class="nav-link p-0 user-icon-link" [routerLink]="['/login']">
+                    <i class="bi bi-person-circle fs-4"></i>
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>

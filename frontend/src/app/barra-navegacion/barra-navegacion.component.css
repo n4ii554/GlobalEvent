@@ -5,16 +5,15 @@
     align-items: center;
     justify-content: space-between;
     padding: 15px 40px;
-    background-color: #f9f9f9; /* Color suave, similar a login */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra ligera */
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-family: 'DM Serif Display', serif;
-    border-bottom: 2px solid #4CAF50; /* verde acorde con login */
+    border-bottom: 2px solid #4CAF50;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-/* Logo */
 .logo {
     height: 70px;
     width: auto;
@@ -22,7 +21,6 @@
     cursor: pointer;
 }
 
-/* Menú de navegación */
 .navbar-nav {
     display: flex;
     align-items: center;
@@ -32,16 +30,14 @@
     list-style: none;
 }
 
-/* Elementos li */
 .navbar-nav li {
     list-style: none;
 }
 
-/* Links */
 .custom-navlink {
     font-weight: 400;
     font-size: 18px;
-    color: #333; /* gris oscuro para mejor legibilidad */
+    color: #333;
     text-decoration: none;
     padding: 8px 12px;
     border-radius: 6px;
@@ -51,11 +47,10 @@
 .custom-navlink:hover,
 .custom-navlink.router-link-active {
     color: white;
-    background-color: #4CAF50; /* verde vivo */
+    background-color: #4CAF50;
     text-decoration: none;
 }
 
-/* Dropdown */
 .custom-dropdown {
     display: flex;
     align-items: center;
@@ -63,7 +58,6 @@
     position: relative;
 }
 
-/* Botón dropdown */
 .dropdown .btn {
     background: none;
     border: none;
@@ -77,24 +71,22 @@
     color: #4CAF50;
 }
 
-/* Dropdown menu */
 .dropdown-menu {
     font-family: 'DM Serif Display', serif;
     font-size: 16px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px 0;
     position: absolute;
     top: 110%;
     right: 0;
     min-width: 180px;
     z-index: 2000;
-    display: none; /* controla con JS o Angular para mostrar */
+    display: none;
 }
 
-/* Items dentro del dropdown */
 .custom-item {
     padding: 10px 25px;
     color: #333;
@@ -109,27 +101,117 @@
     cursor: pointer;
 }
 
-/* Íconos dentro de dropdown */
 .custom-item i {
     margin-right: 10px;
 }
 
-/* Responsive: Opcional, para pantallas pequeñas */
 @media (max-width: 768px) {
     .navbar {
         flex-wrap: wrap;
         padding: 10px 20px;
     }
+
     .navbar-nav {
         gap: 20px;
         justify-content: center;
         width: 100%;
         margin-top: 10px;
     }
+
     .custom-dropdown {
         margin-left: 0;
         justify-content: center;
         width: 100%;
         margin-top: 10px;
     }
+}
+
+.user-icon-link {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+    color: #333;
+    transition: background-color .3s, color .3s, box-shadow .3s, transform .3s;
+}
+
+.user-icon-link i {
+    font-size: 24px;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.user-icon-link:hover,
+.dropdown.show .user-icon-link {
+    background-color: #4CAF50;
+    color: #fff;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, .25);
+    transform: translateY(-1px);
+}
+
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #01ff09;
+    color: #fff;
+}
+
+.user-icon-link {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.user-icon-link:hover {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.simple-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    min-width: 160px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    z-index: 2000;
+}
+
+.simple-menu .dropdown-item {
+    width: 100%;
+    text-align: left;
+}
+
+.simple-menu .dropdown-item:hover {
+    background-color: #4CAF50;
+    color: #fff;
 }
